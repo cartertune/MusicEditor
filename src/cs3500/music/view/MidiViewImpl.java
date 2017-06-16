@@ -14,114 +14,70 @@ public class MidiViewImpl implements ViewInterface {
 
   private Synthesizer synth;
   private Receiver receiver;
-  private Sequencer sequencer = null;
+  private MusicOperations piece;
 
   /**
-   *
-   * @param model
-   * @throws MidiUnavailableException
+   * Constructor. Takes the music piece to be played, and prepares the necessary boiler plate.
+   * @param model the music piece to be played
+   * @throws IllegalArgumentException if model is null
+   * @throws IllegalStateException if system midi is inaccessible
    */
-  public MidiViewImpl(MusicOperations model) throws MidiUnavailableException {
-    this.synth = MidiSystem.getSynthesizer();
-    this.receiver = synth.getReceiver();
+  public MidiViewImpl(MusicOperations model){
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
+    this.piece = model;
 
-    sequencer = MidiSystem.getSequencer(); //default sequencer
-    this.synth.open();
-    sequencer.open();
-
-
-    this.receiver = synth.getReceiver();
-    try {
-      this.loadPiece(model); //Create sequence from model
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-      throw new IllegalArgumentException("Invalid model: " + e.getMessage());
+    try { //Boiler Plate: Synthesizer and receiver
+      this.synth = MidiSystem.getSynthesizer();
+      this.receiver = synth.getReceiver();
+      this.synth.open();
+      this.receiver = synth.getReceiver();
+    } catch (MidiUnavailableException e) {
+      throw new IllegalStateException("System unsupported. System midi output unavailable.");
     }
   }
 
-  //todo: javadoc
-  private void loadPiece(MusicOperations piece) throws InvalidMidiDataException, MidiUnavailableException {
-    //Boiler Plate
-     //todo: Move to constructor
-    //todo: tempo in Pulses per tick per quarter note as time resolution in new sequence
-    Sequence sequence = new Sequence(Sequence.PPQ, 30); //10 pulses per quarter note
-    sequence.createTrack();
-    sequencer.setSequence(sequence);
-    sequencer.recordEnable(sequence.getTracks()[0], 0);
-    sequencer.startRecording();
-
-
-    //---------------------------------------------------------------------------------------------
-    // ^cruff above is setup.   V Cruff below is actual music recording, Midi messages
-
-    //Ideally, Iterate through a list of notes.
-    //Alternatively, get last note time, and iterate based on time from 0 to that.
+  /**
+   * Converts the music piece into a series of messages, appropriately time stamped, and plays it.
+   *
+   * @throws IllegalArgumentException if the model used to construct this contained invalid midiData
+   * @throws IllegalStateException if the thread sleep is interrupted.
+   */
+  @Override
+  public void initialize() {
     for (int time = 0; time < piece.maxBeatNum(); time++) {
       ArrayList<INote> notes = piece.getNotesAt(time);
-      if (!notes.isEmpty()) { //there are notes here
-        for (INote note: notes) { //For each note at this time,send 2 messages
+      if (!notes.isEmpty()) { //if there are notes beginning at this time
+        for (INote note: notes) { //For each note at this time, send 2 messages
 
           long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
-          this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
-                  note.getInstrument(), //Instrument midi value
-                  note.value(),
-                  note.getVolume()),
-                  timeStamp); // Time stamp
+          long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
+              (long)piece.getTempo());
 
+          try {
+            this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
+                    note.getInstrument(), //Instrument midi value
+                    note.value(),
+                    note.getVolume()),
+                timeStamp); // Time stamp
 
-          this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
-                          note.getInstrument(), //Instrument midi value
-                          note.value(),
-                          note.getVolume()),
-                  timeStamp + ((long)600000000 * (long)note.getDuration()) / (long)piece.getTempo());
+            this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
+                    note.getInstrument(), //Instrument midi value
+                    note.value(),
+                    note.getVolume()),
+                timeStamp + duration);
+          } catch (InvalidMidiDataException e) {
+            throw new IllegalArgumentException("Invalid model. Check format." + e.getMessage());
+          }
         }
       }
     }
-    sequencer.stopRecording();
-  }
 
-  @Override
-  public void initialize() {
-    sequencer.start();// start playing loaded music
-    System.out.print(sequencer.isRunning());
-    System.out.print(sequencer.toString());
-    System.out.print("reached close");
-    try {
-      Thread.sleep(this.);
+    try { //sleep for entire duration of piece.
+      Thread.sleep(((long)600000000 * (long)piece.maxBeatNum() ) / (long)piece.getTempo());
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
     }
-    System.out.print(sequencer.getMicrosecondLength());
-    sequencer.close();
-
-    try {
-      this.playNote();
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void playNote() throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 120);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
-    this.receiver.send(start, -1);
-    this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    /*
-    The receiver does not "block", i.e. this method
-    immediately moves to the next line and closes the
-    receiver without waiting for the synthesizer to
-    finish playing.
-
-    You can make the program artificially "wait" using
-    Thread.sleep. A better solution will be forthcoming
-    in the subsequent assignments.
-    */
-    this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 }
