@@ -51,7 +51,7 @@ public class MidiViewImpl implements ViewInterface {
       if (!notes.isEmpty()) { //if there are notes beginning at this time
         for (INote note: notes) { //For each note at this time, send 2 messages
 
-          long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
+          long timeStamp = (100 * (long)600000000 * (long)time) / (long)piece.getTempo();
           long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
               (long)piece.getTempo());
 

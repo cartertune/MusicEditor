@@ -7,22 +7,22 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 /**
- * Created by cartertune on 6/16/17.
+ * Class to represent a simple controller for the GUIView.
  */
 public class GUIController implements IController {
 
   private final IGUIView view;
-  private final MusicOperations model;
   private HashMap<Integer, Runnable> keyCMDs;
 
-  public HashMap<Integer, Runnable> getKeyCMDs() {
-    return keyCMDs;
-  }
-
+  /**
+   * Creates a controller for the given view, adds the KeyCommands specified in addKeyCommands(),
+   * and adds a Listener to the view.
+   *
+   * @param view the view to control.
+   */
   public GUIController(IGUIView view, MusicOperations model) {
 
     this.view = view;
-    this.model = model;
     addKeyCommands();
     addListener();
   }
@@ -43,8 +43,9 @@ public class GUIController implements IController {
 
       @Override
       public void keyPressed(KeyEvent e) {
-
-        keyCMDs.get(e.getKeyCode()).run();
+        if (keyCMDs.containsKey(e.getKeyCode())) {
+          keyCMDs.get(e.getKeyCode()).run();
+        }
       }
 
       @Override
