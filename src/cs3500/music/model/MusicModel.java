@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import com.sun.tools.internal.xjc.model.Model;
+import cs3500.music.util.CompositionBuilder;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +12,60 @@ public class MusicModel implements MusicOperations {
 
   private int tempo;
   private Piece piece;
+
+  private MusicModel(compBuilder compBuilder) {
+    this.tempo = compBuilder.tempo;
+    this.piece = compBuilder.piece;
+  }
+
+  public static class compBuilder implements CompositionBuilder<MusicModel> {
+
+
+    private int tempo;
+    private Piece piece = new Piece();
+
+    /**
+     * Constructs an actual composition, given the notes that have been added
+     *
+     * @return The new composition
+     */
+    @Override
+    public MusicModel build() {
+      return new MusicModel(this);
+    }
+
+    /**
+     * Sets the tempo of the piece
+     *
+     * @param tempo The speed, in microseconds per beat
+     * @return This builder
+     */
+    @Override
+    public CompositionBuilder<MusicModel> setTempo(int tempo) {
+
+      this.tempo = tempo;
+      return this;
+    }
+
+    /**
+     * Adds a new note to the piece
+     *
+     * @param start The start time of the note, in beats
+     * @param end The end time of the note, in beats
+     * @param instrument The instrument number (to be interpreted by MIDI)
+     * @param pitch The pitch (in the range [0, 127], where 60 represents C4, the middle-C on a
+     * piano)
+     * @param volume The volume (in the range [0, 127])
+     */
+    @Override
+    public CompositionBuilder<MusicModel> addNote(int start, int end, int instrument, int pitch,
+        int volume) {
+
+      Note note = new Note(new Sound(pitch), end - start, instrument, volume);
+      piece.addNote(note, start);
+      return this;
+    }
+  }
 
   public MusicModel() {
     this.piece = new Piece();
