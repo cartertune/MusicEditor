@@ -2,96 +2,82 @@ package cs3500.music.view;
 
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
-import cs3500.music.model.Note;
 
 import javax.sound.midi.*;
 import java.util.ArrayList;
 
-/** todo: update javadoc
- * A skeleton for MIDI playback
+/**
+ * View for Music Editor. Presents music through sound, instead of visuals.
  */
 public class MidiViewImpl implements ViewInterface {
 
 
   private Synthesizer synth;
   private Receiver receiver;
-  private Sequencer sequencer = null;
+  private MusicOperations piece;
 
-  //todo: mod, overload constructor? - one with model and [one empty?]
-  public MidiViewImpl(MusicOperations model) throws MidiUnavailableException {
-    this.synth = MidiSystem.getSynthesizer();
-    this.receiver = synth.getReceiver();
+  /**
+   * Constructor. Takes the music piece to be played, and prepares the necessary boiler plate.
+   * @param model the music piece to be played
+   * @throws IllegalArgumentException if model is null
+   * @throws IllegalStateException if system midi is inaccessible
+   */
+  public MidiViewImpl(MusicOperations model){
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
+    this.piece = model;
 
-    sequencer = MidiSystem.getSequencer(); //default sequencer
-    this.synth.open();
-    sequencer.open();
-
-
-    this.receiver = synth.getReceiver();
-    try {
-      this.loadPiece(model); //Create sequence from model
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-      throw new IllegalArgumentException("Invalid model: " + e.getMessage());
+    try { //Boiler Plate: Synthesizer and receiver
+      this.synth = MidiSystem.getSynthesizer();
+      this.receiver = synth.getReceiver();
+      this.synth.open();
+      this.receiver = synth.getReceiver();
+    } catch (MidiUnavailableException e) {
+      throw new IllegalStateException("System unsupported. System midi output unavailable.");
     }
   }
 
-  //todo: javadoc
-  private void loadPiece(MusicOperations piece) throws InvalidMidiDataException, MidiUnavailableException {
-    //Boiler Plate
-     //todo: Move to constructor
-    //todo: tempo in Pulses per tick per quarter note as time resolution in new sequence
-    Sequence sequence = new Sequence(Sequence.PPQ, 30, 1); //10 pulses per quarter note
-    //sequence.createTrack();
-    sequencer.setSequence(sequence);
-    //System.out.print(sequence.getTracks().length);
-    sequencer.recordEnable(sequence.getTracks()[0], 0);
-    sequencer.startRecording();
-
-    sequencer.setTempoInBPM(piece.getTempo());
-
-    //---------------------------------------------------------------------------------------------
-    // ^cruff above is setup.   V Cruff below is actual music recording, Midi messages
-    //Ideally, Iterate through a list of notes.
-    //Alternatively, get last note time, and iterate based on time from 0 to that.
+  /**
+   * Converts the music piece into a series of messages, appropriately time stamped, and plays it.
+   *
+   * @throws IllegalArgumentException if the model used to construct this contained invalid midiData
+   * @throws IllegalStateException if the thread sleep is interrupted.
+   */
+  @Override
+  public void initialize() {
     for (int time = 0; time < piece.maxBeatNum(); time++) {
       ArrayList<INote> notes = piece.getNotesAt(time);
-      if (!notes.isEmpty()) { //there are notes here
-        for (INote note: notes) { //For each note at this time,send 2 messages
+      if (!notes.isEmpty()) { //if there are notes beginning at this time
+        for (INote note: notes) { //For each note at this time, send 2 messages
 
-
-          long timeStamp = (100 * (long)600000000 * (long)time) / (long)piece.getTempo();
+          long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
           long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
               (long)piece.getTempo());
 
-          this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
-                  note.getInstrument(), //Instrument midi value
-                  note.value(),
-                  note.getVolume()),
-                  timeStamp); // Time stamp
+          try {
+            this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
+                    note.getInstrument(), //Instrument midi value
+                    note.value(),
+                    note.getVolume()),
+                timeStamp); // Time stamp
 
-          this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
-                          note.getInstrument(), //Instrument midi value
-                          note.value(),
-                          note.getVolume()),
-                  timeStamp + duration);
+            this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
+                    note.getInstrument(), //Instrument midi value
+                    note.value(),
+                    note.getVolume()),
+                timeStamp + duration);
+          } catch (InvalidMidiDataException e) {
+            throw new IllegalArgumentException("Invalid model. Check format." + e.getMessage());
+          }
         }
       }
     }
-    sequencer.stopRecording();
-  }
 
-  @Override
-  public void initialize() {
-    sequencer.start();// start playing loaded music
-    System.out.print("reached close");
-    try {
-      Thread.sleep(20000);
+    try { //sleep for entire duration of piece.
+      Thread.sleep(((long)600000000 * (long)piece.maxBeatNum() ) / (long)piece.getTempo());
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
     }
-    System.out.print(sequencer.getMicrosecondLength());
-    sequencer.close();
   }
-
 }
