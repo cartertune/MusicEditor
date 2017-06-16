@@ -31,6 +31,5 @@ public class MusicEditor {
 
     MidiViewImpl midiView = new MidiViewImpl(model);
     midiView.initialize();
-
   }
 }

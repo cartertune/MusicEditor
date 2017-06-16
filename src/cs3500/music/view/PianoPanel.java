@@ -78,11 +78,15 @@ public class PianoPanel extends JPanel {
 
   private boolean isPlayed(int value) {
 
-    ArrayList<INote> notes = model.getNotesAt(currentBeat);
+    for (int i = 0; i <= currentBeat; i++) {
 
-    for (INote n: notes) {
-      if (n.value() == value) {
-        return true;
+      ArrayList<INote> notes = model.getNotesAt(i);
+
+      for (INote n : notes) {
+        if ((n.value() == value) && n.getDuration() > currentBeat - i) {
+
+          return true;
+        }
       }
     }
     return false;
