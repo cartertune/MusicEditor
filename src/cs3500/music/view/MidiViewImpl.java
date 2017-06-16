@@ -27,7 +27,7 @@ public class MidiViewImpl implements ViewInterface {
     sequencer.open();
 
 
-    this.receiver = synth.getReceiver();
+    this.receiver = sequencer.getReceiver();
     try {
       this.loadPiece(model); //Create sequence from model
     } catch (InvalidMidiDataException e) {
@@ -41,9 +41,10 @@ public class MidiViewImpl implements ViewInterface {
     //Boiler Plate
      //todo: Move to constructor
     //todo: tempo in Pulses per tick per quarter note as time resolution in new sequence
-    Sequence sequence = new Sequence(Sequence.PPQ, 30); //10 pulses per quarter note
-    sequence.createTrack();
+    Sequence sequence = new Sequence(Sequence.PPQ, 30, 1); //10 pulses per quarter note
+    //sequence.createTrack();
     sequencer.setSequence(sequence);
+    //System.out.print(sequence.getTracks().length);
     sequencer.recordEnable(sequence.getTracks()[0], 0);
     sequencer.startRecording();
 
@@ -53,13 +54,12 @@ public class MidiViewImpl implements ViewInterface {
     // ^cruff above is setup.   V Cruff below is actual music recording, Midi messages
     //Ideally, Iterate through a list of notes.
     //Alternatively, get last note time, and iterate based on time from 0 to that.
-    int c = 0;
     for (int time = 0; time < piece.maxBeatNum(); time++) {
       ArrayList<INote> notes = piece.getNotesAt(time);
       if (!notes.isEmpty()) { //there are notes here
         for (INote note: notes) { //For each note at this time,send 2 messages
 
-          c++;
+
           long timeStamp = (100 * (long)600000000 * (long)time) / (long)piece.getTempo();
           long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
               (long)piece.getTempo());
@@ -69,7 +69,6 @@ public class MidiViewImpl implements ViewInterface {
                   note.value(),
                   note.getVolume()),
                   timeStamp); // Time stamp
-
 
           this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
                           note.getInstrument(), //Instrument midi value
