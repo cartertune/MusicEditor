@@ -18,6 +18,11 @@ public class MusicModel implements MusicOperations {
     this.piece = compBuilder.piece;
   }
 
+  public MusicModel() {
+    this.piece = new Piece();
+    this.tempo = 90;
+  }
+
   public static class compBuilder implements CompositionBuilder<MusicModel> {
 
 
@@ -69,11 +74,6 @@ public class MusicModel implements MusicOperations {
       piece.addNote(note, start);
       return this;
     }
-  }
-
-  public MusicModel() {
-    this.piece = new Piece();
-    this.tempo = 90;
   }
 
   @Override

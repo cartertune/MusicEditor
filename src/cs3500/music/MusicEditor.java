@@ -22,12 +22,12 @@ public class MusicEditor {
             new MusicModel.compBuilder());
 
 
-      MusicModel mod1 = new MusicModel();
-      mod1.addNote(500000, 4, 5,  5, 64, "C");
+      //MusicModel mod1 = new MusicModel();
+      //mod1.addNote(500000, 4, 5,  5, 64, "C");
       //GuiViewFrame view = new GuiViewFrame(model, new GUIController());
 
       try {
-          MidiViewImpl midiView = new MidiViewImpl(mod1);
+          MidiViewImpl midiView = new MidiViewImpl(model);
           midiView.initialize();
       } catch (MidiUnavailableException e) {
           e.printStackTrace();
