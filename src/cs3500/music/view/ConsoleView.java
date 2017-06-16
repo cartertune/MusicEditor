@@ -1,9 +1,12 @@
 package cs3500.music.view;
 
 import cs3500.music.model.MusicOperations;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
- * Created by cartertune on 6/16/17.
+ * todo: javadoc
  */
 public class ConsoleView implements ViewInterface {
 
@@ -15,6 +18,20 @@ public class ConsoleView implements ViewInterface {
 
   @Override
   public void initialize() {
+
+//todo: delete, used to output mary.txt file
+//    FileWriter fw = null;
+//    try {
+//      fw = new FileWriter("midi-transcript.txt");
+//
+//    BufferedWriter bw = new BufferedWriter(fw);
+//    bw.write(model.getMIDINotation());
+//
+//    bw.close();
+//    fw.close();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
     System.out.print(model.getMIDINotation());
   }
 }

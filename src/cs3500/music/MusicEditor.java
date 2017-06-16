@@ -28,12 +28,9 @@ public class MusicEditor {
     gui.setController(controller);
 
     gui.initialize();
-    try {
-      MidiViewImpl midiView = new MidiViewImpl(model);
-      midiView.initialize();
-    } catch (MidiUnavailableException e) {
-      e.printStackTrace();
-    }
+
+    MidiViewImpl midiView = new MidiViewImpl(model);
+    midiView.initialize();
 
   }
 }
