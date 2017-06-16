@@ -151,4 +151,14 @@ public class NotesPanel extends JPanel {
           notesLabelWidth + i * beatWidth, panelHeight);
     }
   }
+
+  void moveRight() {
+    currentBeat++;
+    repaint();
+  }
+
+  void moveLeft() {
+    currentBeat--;
+    repaint();
+  }
 }

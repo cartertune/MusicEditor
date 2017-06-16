@@ -92,4 +92,14 @@ public class PianoPanel extends JPanel {
 
     return p == 1 || p == 3 || p == 6 || p == 8 || p == 10;
   }
+
+  void moveRight() {
+    currentBeat++;
+    repaint();
+  }
+
+  void moveLeft() {
+    currentBeat--;
+    repaint();
+  }
 }

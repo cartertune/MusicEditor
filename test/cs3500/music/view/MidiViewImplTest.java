@@ -11,9 +11,8 @@ public class MidiViewImplTest {
 
   @Test
   public void testSequencer() throws Exception {
-    MidiViewImpl view = new MidiViewImpl(); //change to ViewInterface for real deal
+    MidiViewImpl view = new MidiViewImpl(null); //change to ViewInterface for real deal
 
-    view.testSequencer(null);
 
   }
 
