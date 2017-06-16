@@ -32,10 +32,12 @@ public class MidiViewImpl implements ViewInterface {
     sequencer.open();
     this.receiver = sequencer.getReceiver(); //todo: Move to constructor
     //todo: tempo in Pulses per tick per quarter note as time resolution in new sequence
-    Sequence sequence = new Sequence(Sequence.PPQ, 10); //10 pulses per quarter note
+    Sequence sequence = new Sequence(Sequence.PPQ, 30); //10 pulses per quarter note
     sequence.createTrack();
     sequencer.setSequence(sequence);
     sequencer.recordEnable(sequence.getTracks()[0], 0);
+
+
 
     //---------------------------------------------------------------------------------------------
     // ^cruff above is setup.   V Cruff below is actual music recording, Midi messages
@@ -47,26 +49,34 @@ public class MidiViewImpl implements ViewInterface {
       if (!notes.isEmpty()) { //there are notes here
         for (INote note:notes) { //For each note at this time,send 2 messages
 
+          long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
           this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
                   note.getInstrument(), //Instrument midi value
                   note.value(),
                   note.getVolume()),
-                  time + note.getDuration()); // Time stamp
+                  timeStamp); // Time stamp
 
           this.receiver.send(new ShortMessage(ShortMessage.NOTE_OFF,
                           note.getInstrument(), //Instrument midi value
                           note.value(),
                           note.getVolume()),
-                  time + note.getDuration()); // Time stamp
+                  timeStamp + ((long)600000000 * (long)note.getDuration()) / (long)piece.getTempo());
         }
       }
     }
 
-    //sequencer.close(); //when done recording, makes sequencer available for use
+    
   }
 
   @Override
   public void initialize() {
-    sequencer.start(); // start playing loaded music
+    sequencer.start();// start playing loaded music
+    System.out.print("reached close");
+    try {
+      Thread.sleep(20000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    sequencer.close();
   }
 }
