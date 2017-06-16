@@ -1,6 +1,6 @@
 package cs3500.music.model;
 
-import com.sun.tools.internal.xjc.model.Model;
+
 import cs3500.music.util.CompositionBuilder;
 import java.util.ArrayList;
 
@@ -24,6 +24,10 @@ public class MusicModel implements MusicOperations {
     private int tempo;
     private Piece piece = new Piece();
 
+
+    public compBuilder() {
+
+    }
     /**
      * Constructs an actual composition, given the notes that have been added
      *

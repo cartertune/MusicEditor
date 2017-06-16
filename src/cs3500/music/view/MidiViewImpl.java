@@ -62,7 +62,7 @@ public class MidiViewImpl implements ViewInterface {
       }
     }
 
-    sequencer.close(); //when done recording, makes sequencer available for use
+    //sequencer.close(); //when done recording, makes sequencer available for use
   }
 
   @Override
