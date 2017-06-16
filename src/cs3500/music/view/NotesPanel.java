@@ -54,22 +54,31 @@ public class NotesPanel extends JPanel {
     drawMeasureLines(g);
     drawNoteLabels(g);
     drawNotes(g);
-//    drawBeatTracker(g);
+    drawBeatTracker(g);
+  }
+
+  private void drawBeatTracker(Graphics g) {
+    g.setColor(Color.red);
+    int xposn = notesLabelWidth + (currentBeat * beatWidth);
+    g.drawLine(xposn, 0, xposn, panelHeight);
   }
 
   private void drawNotes(Graphics g) {
 
-    ArrayList<INote> currNotes = model.getNotesAt(currentBeat);
+    for (int beat = 0; beat < maxBeats; beat++) {
 
-    int xposnBlk = notesLabelWidth + (currentBeat * beatWidth);
-    int xposnRed = xposnBlk + beatWidth;
+      ArrayList<INote> currNotes = model.getNotesAt(beat);
 
-    for (INote note: currNotes) {
-      g.setColor(Color.black);
-      g.fillRect(xposnBlk, (maxNoteVal - note.value()) * beatHeight, beatWidth, beatHeight);
-      g.setColor(Color.red);
-      g.fillRect(xposnRed, (maxNoteVal - note.value()) * beatHeight,
-          (beatWidth * (note.getDuration() - 1)), beatHeight);
+      int xposnBlk = notesLabelWidth + (beat * beatWidth);
+      int xposnRed = xposnBlk + beatWidth;
+
+      for (INote note : currNotes) {
+        g.setColor(Color.black);
+        g.fillRect(xposnBlk, (maxNoteVal - note.value()) * beatHeight, beatWidth, beatHeight);
+        g.setColor(Color.ORANGE);
+        g.fillRect(xposnRed, (maxNoteVal - note.value()) * beatHeight,
+            (beatWidth * (note.getDuration() - 1)), beatHeight);
+      }
     }
   }
 

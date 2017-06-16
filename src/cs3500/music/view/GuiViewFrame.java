@@ -29,6 +29,7 @@ public class GuiViewFrame extends JFrame implements ViewInterface {
     beatNumLabel.setPreferredSize(new Dimension(1260, 60));
     beatNumLabel.setBackground(Color.lightGray);
     beatNumLabel.setVisible(true);
+
     notesPanel = new NotesPanel(model);
     pianoPanel = new PianoPanel(model, notesPanel);
     JScrollPane noteScroll = new JScrollPane(notesPanel);
@@ -44,23 +45,6 @@ public class GuiViewFrame extends JFrame implements ViewInterface {
   @Override
   public void initialize(){
     this.setVisible(true);
-  }
-
-  @Override
-  public Dimension getPreferredSize(){
-    return new Dimension(100, 100);
-  }
-
-  private String[] stringByBeat() {
-
-    String fullNotation = model.getMIDINotation();
-    return fullNotation.split("\n");
-
-  }
-
-  private String topLine() {
-
-    return stringByBeat()[0];
   }
 
 }

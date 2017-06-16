@@ -8,10 +8,12 @@ import java.util.ArrayList;
 public class MusicModel implements MusicOperations {
 
 
+  private int tempo;
   private Piece piece;
 
   public MusicModel() {
     this.piece = new Piece();
+    this.tempo = 90;
   }
 
   @Override
@@ -97,6 +99,11 @@ public class MusicModel implements MusicOperations {
     return piece.getMaxNoteValue();
   }
 
+  @Override
+  public int maxBeatNum() {
+    return piece.lastBeat();
+  }
+
 
   private Pitch pitchSelector(String pitch) {
 
@@ -140,5 +147,15 @@ public class MusicModel implements MusicOperations {
 
     throw new IllegalArgumentException("Please give only 2 arguments "
         + "to edit a note. Reference JavaDoc.");
+  }
+
+  @Override
+  public int getTempo() {
+    return tempo;
+  }
+
+  @Override
+  public void setTempo(int tempo) {
+    this.tempo = tempo;
   }
 }

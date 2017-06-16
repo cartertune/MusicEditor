@@ -192,7 +192,7 @@ public class Piece {
    * Gets the last beat of the current piece.
    * @return the last beat of the current piece plus a measure (4 beats)
    */
-  private int lastBeat() {
+   int lastBeat() {
 
     ArrayList<Integer> beatNums = new ArrayList<>(notes.keySet());
     try {

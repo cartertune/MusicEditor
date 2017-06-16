@@ -78,4 +78,10 @@ public interface MusicOperations {
 
   int minNoteValue();
   int maxNoteValue();
+
+  int maxBeatNum();
+
+  int getTempo();
+
+  void setTempo(int tempo);
 }

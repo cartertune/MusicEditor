@@ -12,9 +12,10 @@ public class MainGui {
   public static void main(String[] args) {
 
     MusicOperations model = new MusicModel();
-    model.addNote(4, 3,0, "CSHARP");
+    model.addNote(4, 3,1, "CSHARP");
     model.addNote(2, 5,0, "CSHARP");
-
+    model.addNote(8, 4,4, "F");
+    model.addNote(2, 4,2, "E");
     GuiViewFrame gui = new GuiViewFrame(model);
     gui.initialize();
   }
