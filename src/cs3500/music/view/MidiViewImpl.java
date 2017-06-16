@@ -27,7 +27,7 @@ public class MidiViewImpl implements ViewInterface {
     sequencer.open();
 
 
-    this.receiver = sequencer.getReceiver();
+    this.receiver = synth.getReceiver();
     try {
       this.loadPiece(model); //Create sequence from model
     } catch (InvalidMidiDataException e) {

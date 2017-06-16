@@ -1,12 +1,15 @@
 package cs3500.music;
 
 import cs3500.music.controller.GUIController;
+import cs3500.music.controller.IController;
 import cs3500.music.model.MusicModel;
+import cs3500.music.model.MusicOperations;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 
+import cs3500.music.view.ViewInterface;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
@@ -18,20 +21,19 @@ public class MusicEditor {
 
 
 
-    MusicModel model = MusicReader.parseFile(new FileReader("mary-little-lamb.txt"),
+    MusicOperations model = MusicReader.parseFile(new FileReader("mystery-2.txt"),
             new MusicModel.compBuilder());
+    GuiViewFrame gui = new GuiViewFrame(model, null);
+    GUIController controller = new GUIController(gui, model);
+    gui.setController(controller);
 
+    gui.initialize();
+    try {
+      MidiViewImpl midiView = new MidiViewImpl(model);
+      midiView.initialize();
+    } catch (MidiUnavailableException e) {
+      e.printStackTrace();
+    }
 
-      //MusicModel mod1 = new MusicModel();
-      //mod1.addNote(500000, 4, 5,  5, 64, "C");
-      //GuiViewFrame view = new GuiViewFrame(model, new GUIController());
-
-      try {
-          MidiViewImpl midiView = new MidiViewImpl(model);
-          midiView.initialize();
-      } catch (MidiUnavailableException e) {
-          e.printStackTrace();
-      }
-      // You probably need to connect these views to your model, too...
   }
 }
