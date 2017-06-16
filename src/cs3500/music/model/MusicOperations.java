@@ -16,8 +16,19 @@ public interface MusicOperations {
    * @param beatNum beat number to add the note at.
    * @throws IllegalArgumentException if note is invalid.
    */
-  void addNote(int duration, int octave, int beatNum, String pitch) throws IllegalArgumentException;
+  void addNote(int duration, int octave, int beatNum, String pitch)
+      throws IllegalArgumentException;
 
+  /**
+   * Adds a note to the piece at a given beat number.
+   * @param pitch pitch of the note to be added.
+   * @param octave octave of the note to be added.
+   * @param duration duration of the note to be added.
+   * @param beatNum beat number to add the note at.
+   * @throws IllegalArgumentException if note is invalid.
+   */
+  void addNote(int duration, int octave, int beatNum, int instrument, int volume, String pitch)
+      throws IllegalArgumentException;
   /**
    * Removes a note from the song.
    * @param beatNum beat number to remove note from.
@@ -64,4 +75,7 @@ public interface MusicOperations {
    * @return the list of notes.
    */
   ArrayList<INote> getNotesAt(int beatNum);
+
+  int minNoteValue();
+  int maxNoteValue();
 }

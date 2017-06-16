@@ -25,6 +25,16 @@ public class MusicModel implements MusicOperations {
   }
 
   @Override
+  public void addNote(int duration, int octave, int beatNum, int instrument, int volume,
+      String pitch) throws IllegalArgumentException {
+
+    Pitch p = pitchSelector(pitch);
+
+    Note note = new Note(new Sound(p, octave), duration, instrument, volume);
+    piece.addNote(note, beatNum);
+  }
+
+  @Override
   public INote removeNote(int beatNum, String pitch, int octave) {
 
     Pitch p = pitchSelector(pitch);
@@ -75,6 +85,16 @@ public class MusicModel implements MusicOperations {
   @Override
   public ArrayList<INote> getNotesAt(int beatNum) {
     return piece.getNotesAt(beatNum);
+  }
+
+  @Override
+  public int minNoteValue() {
+    return piece.getMinNoteValue();
+  }
+
+  @Override
+  public int maxNoteValue() {
+    return piece.getMaxNoteValue();
   }
 
 

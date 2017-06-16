@@ -22,9 +22,19 @@ public interface INote {
    */
   ArrayList<Beat> toBeat();
 
+  int getOctave();
+
+  int getDuration();
+
+  String getPitch();
+
   void setDuration(int duration);
 
   void setOctave(int octave);
 
   void setPitch(Pitch pitch);
+
+  int getVolume();
+
+  int getInstrument();
 }

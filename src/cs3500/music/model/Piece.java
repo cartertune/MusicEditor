@@ -106,7 +106,7 @@ public class Piece {
    * @return the string.
    */
   String getMIDINotation() {
-    StringBuilder strBldr = new StringBuilder();
+    StringBuilder strBldr = new StringBuilder("");
 
     String topLine = topLine();
     strBldr.append(topLine);
@@ -203,7 +203,7 @@ public class Piece {
     }
   }
 
-  private int getMinNoteValue() {
+  int getMinNoteValue() {
 
     int min = 9999999;
 
@@ -221,7 +221,7 @@ public class Piece {
     }
   }
 
-  private int getMaxNoteValue() {
+  int getMaxNoteValue() {
 
     int max = 0;
 

@@ -10,6 +10,8 @@ public class Note implements INote {
 
   private Sound sound;
   private int duration;
+  private int instrument;
+  private int volume;
 
   /**
    * Creates a note with given sound and duration.
@@ -20,8 +22,17 @@ public class Note implements INote {
   public Note(Sound sound, int duration) {
     this.sound = sound;
     this.duration = duration;
+    this.instrument = 0;
+    this.volume = 64;
   }
 
+  public Note(Sound sound, int duration, int instrument, int volume) {
+
+    this.sound = sound;
+    this.duration = duration;
+    this.instrument = instrument;
+    this.volume = volume;
+  }
 
   @Override
   public void setPitch(Pitch pitch) {
@@ -66,7 +77,28 @@ public class Note implements INote {
     return beat;
   }
 
+  @Override
+  public int getOctave() {
+    return sound.getOctave();
+  }
+
+  @Override
   public int getDuration() {
     return duration;
+  }
+
+  @Override
+  public String getPitch() {
+    return sound.getPitch().toString();
+  }
+
+  @Override
+  public int getVolume() {
+    return volume;
+  }
+
+  @Override
+  public int getInstrument() {
+    return instrument;
   }
 }
