@@ -2,13 +2,12 @@ package cs3500.music.view;
 
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
-import cs3500.music.model.Note;
 
 import javax.sound.midi.*;
 import java.util.ArrayList;
 
-/** todo: update javadoc
- * A skeleton for MIDI playback
+/**
+ * View for Music Editor. Presents music through sound, instead of visuals.
  */
 public class MidiViewImpl implements ViewInterface {
 
@@ -17,7 +16,11 @@ public class MidiViewImpl implements ViewInterface {
   private Receiver receiver;
   private Sequencer sequencer = null;
 
-  //todo: mod, overload constructor? - one with model and [one empty?]
+  /**
+   *
+   * @param model
+   * @throws MidiUnavailableException
+   */
   public MidiViewImpl(MusicOperations model) throws MidiUnavailableException {
     this.synth = MidiSystem.getSynthesizer();
     this.receiver = synth.getReceiver();
@@ -53,13 +56,11 @@ public class MidiViewImpl implements ViewInterface {
 
     //Ideally, Iterate through a list of notes.
     //Alternatively, get last note time, and iterate based on time from 0 to that.
-    int c = 0;
     for (int time = 0; time < piece.maxBeatNum(); time++) {
       ArrayList<INote> notes = piece.getNotesAt(time);
       if (!notes.isEmpty()) { //there are notes here
         for (INote note: notes) { //For each note at this time,send 2 messages
 
-          c++;
           long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
           this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
                   note.getInstrument(), //Instrument midi value
@@ -86,7 +87,7 @@ public class MidiViewImpl implements ViewInterface {
     System.out.print(sequencer.toString());
     System.out.print("reached close");
     try {
-      Thread.sleep(5000);
+      Thread.sleep(this.);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
