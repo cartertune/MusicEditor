@@ -1,9 +1,12 @@
 package cs3500.music.view;
 
 /**
- * Created by cartertune on 6/13/17.
+ * Simple interface for music editor views.
  */
 public interface ViewInterface {
 
+  /**
+   * Allows the view to be viewed, such as by exposing an invisible panel, or playing a song.
+   */
   void initialize();
 }
