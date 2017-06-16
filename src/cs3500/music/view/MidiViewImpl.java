@@ -47,10 +47,10 @@ public class MidiViewImpl implements ViewInterface {
     sequencer.recordEnable(sequence.getTracks()[0], 0);
     sequencer.startRecording();
 
+    sequencer.setTempoInBPM(piece.getTempo());
 
     //---------------------------------------------------------------------------------------------
     // ^cruff above is setup.   V Cruff below is actual music recording, Midi messages
-
     //Ideally, Iterate through a list of notes.
     //Alternatively, get last note time, and iterate based on time from 0 to that.
     int c = 0;
@@ -60,7 +60,10 @@ public class MidiViewImpl implements ViewInterface {
         for (INote note: notes) { //For each note at this time,send 2 messages
 
           c++;
-          long timeStamp = ((long)600000000 * (long)time) / (long)piece.getTempo();
+          long timeStamp = (100 * (long)600000000 * (long)time) / (long)piece.getTempo();
+          long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
+              (long)piece.getTempo());
+
           this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
                   note.getInstrument(), //Instrument midi value
                   note.value(),
@@ -72,7 +75,7 @@ public class MidiViewImpl implements ViewInterface {
                           note.getInstrument(), //Instrument midi value
                           note.value(),
                           note.getVolume()),
-                  timeStamp + ((long)600000000 * (long)note.getDuration()) / (long)piece.getTempo());
+                  timeStamp + duration);
         }
       }
     }
@@ -82,45 +85,14 @@ public class MidiViewImpl implements ViewInterface {
   @Override
   public void initialize() {
     sequencer.start();// start playing loaded music
-    System.out.print(sequencer.isRunning());
-    System.out.print(sequencer.toString());
     System.out.print("reached close");
     try {
-      Thread.sleep(5000);
+      Thread.sleep(20000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     System.out.print(sequencer.getMicrosecondLength());
     sequencer.close();
-
-    try {
-      this.playNote();
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-    }
   }
 
-  public void playNote() throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 120);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
-    this.receiver.send(start, -1);
-    this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    /*
-    The receiver does not "block", i.e. this method
-    immediately moves to the next line and closes the
-    receiver without waiting for the synthesizer to
-    finish playing.
-
-    You can make the program artificially "wait" using
-    Thread.sleep. A better solution will be forthcoming
-    in the subsequent assignments.
-    */
-    this.receiver.close(); // Only call this once you're done playing *all* notes
-  }
 }
