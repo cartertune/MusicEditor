@@ -39,11 +39,12 @@ public class MidiViewImpl implements ViewInterface {
 
 
   /**
-   * Constructor reserved for mock usage.
+   * Constructor reserved for mock usage. Does not play music if used.
+   * @param model the music piece to be analyzed.
    * @param mockDevice the mock Midi Device to be used instead of a Synthesizer
    * @throws IllegalArgumentException if a non-mock MidiDevice is given.
    */
-  public MidiViewImpl(MidiDevice mockDevice) {
+  public MidiViewImpl(MusicOperations model, MidiDevice mockDevice) {
     if (mockDevice == null) {
       throw new IllegalArgumentException("Mock Midi Device cannot be null.");
     }
@@ -54,6 +55,8 @@ public class MidiViewImpl implements ViewInterface {
     } catch (MidiUnavailableException e) { //mock does not check for midi availabilty
       throw new IllegalArgumentException("Not a mock midi device");
     }
+
+    this.piece = model;
   }
 
   /**
