@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Class to represent a simple controller for the GUIView.
  */
-public class GUIController implements IController {
+public class GUIController {
 
   private final IGUIView view;
   private HashMap<Integer, Runnable> keyCMDs;

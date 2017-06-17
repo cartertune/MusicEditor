@@ -2,7 +2,7 @@ package cs3500.music.model;
 
 
 /**
- * An enumeration to represent the 14 possible pitches.
+ * An enumeration to represent the 12 possible pitches.
  */
 public enum Pitch {
 

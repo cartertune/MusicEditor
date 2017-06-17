@@ -9,7 +9,7 @@ public class Note implements INote {
 
 
   private Sound sound;
-  private int duration;
+  private int duration;//changed to int to add flexibility
   private int instrument;
   private int volume;
 

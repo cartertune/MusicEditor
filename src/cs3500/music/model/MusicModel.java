@@ -6,23 +6,35 @@ import java.util.ArrayList;
 
 /**
  * A class to represent the model of the MusicEditor.
+ * Contains a piece which is a contains all the Notes played in a song. All at different times.
+ *
  */
 public class MusicModel implements MusicOperations {
 
 
-  private int tempo;
+  private int tempo; //NEW field to represent the tempo of the song.
   private Piece piece;
 
+  /**
+   * Makes a MusicModel out of the one built by the given Composition Builder.
+   * @param compBuilder the composition builder that builds this model.
+   */
   private MusicModel(compBuilder compBuilder) {
     this.tempo = compBuilder.tempo;
     this.piece = compBuilder.piece;
   }
 
+  /**
+   * Creates an empty model with no notes, and a default tempo.
+   */
   public MusicModel() {
     this.piece = new Piece();
     this.tempo = 90;
   }
 
+  /**
+   * Implements CompositionBuilder in a way that adapts it for this music model.
+   */
   public static class compBuilder implements CompositionBuilder<MusicModel> {
 
 
@@ -173,8 +185,6 @@ public class MusicModel implements MusicOperations {
       throw new IllegalArgumentException("Invalid pitch received. Check JavaDoc.");
     }
   }
-
-
 
   private INoteEditor noteEditorSelector(String editor) {
 

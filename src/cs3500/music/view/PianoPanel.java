@@ -10,23 +10,22 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * Created by cartertune on 6/15/17.
+ * A class to represent the keyboard displayed at the bottom of the GUIView.
  */
 public class PianoPanel extends JPanel {
 
 
-  MusicOperations model;
-  NotesPanel notesPanel;
-  int currentBeat;
+  private final MusicOperations model;
+  private final NotesPanel notesPanel;
+  private int currentBeat;
 
   private final int width = 1260;
   private final int height = 200;
   private final int keyWidth = 18;
   /**
-   * Creates a new <code>JPanel</code> with a double buffer
-   * and a flow layout.
+   * Initializes the piano to be able to respond according to given mode.
    */
-  public PianoPanel(MusicOperations model, NotesPanel notesPanel) {
+  PianoPanel(MusicOperations model, NotesPanel notesPanel) {
 
     this.currentBeat = 0;
     this.model = model;

@@ -12,12 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * Created by cartertune on 6/15/17.
+ * A panel for the GUIView that shows all the notes in sequential order on the top of the screen.
  */
 public class NotesPanel extends JPanel {
 
 
-  MusicOperations model = new MusicModel();
+  private final MusicOperations model;
   private int currentBeat;
 
   private int panelHeight = 440;
@@ -30,10 +30,9 @@ public class NotesPanel extends JPanel {
   private int maxNoteVal;
 
   /**
-   * Creates a new <code>JPanel</code> with a double buffer
-   * and a flow layout.
+   * Initiates the NotePanel to represent the given model.
    */
-  public NotesPanel(MusicOperations model) {
+  NotesPanel(MusicOperations model) {
 
     this.model = model;
     this.currentBeat = 0;

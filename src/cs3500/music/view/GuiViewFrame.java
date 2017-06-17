@@ -12,7 +12,7 @@ import javafx.scene.control.SplitPane;
 import javax.swing.*;
 
 /**
- * A skeleton Frame (i.e., a window) in Swing
+ * A frame to hold the various Panels that are apart of the GUI view.
  */
 public class GuiViewFrame extends JFrame implements IGUIView {
 
@@ -24,7 +24,11 @@ public class GuiViewFrame extends JFrame implements IGUIView {
   private GUIController controller;
 
   /**
-   * Creates new GuiView
+   * Creates new GuiView.
+   *
+   * <p> Sets the model, controller, and starting beat. Then creates the seperate panels
+   * and orients the appropriately so they are all in their correct positions.</p>
+   *
    */
   public GuiViewFrame(MusicOperations model, GUIController controller) {
     this.model = model;
@@ -89,7 +93,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
     }
   }
 
-
+  @Override
   public void setController(GUIController controller) {
     this.controller = controller;
   }

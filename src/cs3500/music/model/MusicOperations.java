@@ -9,8 +9,13 @@ public interface MusicOperations {
 
 
   /**
-   * Adds a note to the piece at a given beat number.
-   * @param pitch pitch of the note to be added.
+   * Adds a note to the piece at a given beat number with generic instrument and volume.
+   *
+   * <p>the String needed for the pitch is the letter of the note, followed by "SHARP" if
+   * the note is a sharp. Everything must be in all caps.
+   * (i.e a C would be given as "C", and a C# would be "CSHARP" </p>
+   *
+   * @param pitch pitch of the note to be added as a String
    * @param octave octave of the note to be added.
    * @param duration duration of the note to be added.
    * @param beatNum beat number to add the note at.
@@ -19,13 +24,16 @@ public interface MusicOperations {
   void addNote(int duration, int octave, int beatNum, String pitch)
       throws IllegalArgumentException;
 
+
   /**
-   * Adds a note to the piece at a given beat number.
-   * @param pitch pitch of the note to be added.
-   * @param octave octave of the note to be added.
-   * @param duration duration of the note to be added.
-   * @param beatNum beat number to add the note at.
-   * @throws IllegalArgumentException if note is invalid.
+   * Adds a note to model with given parameters.
+   * @param duration duration of Note added.
+   * @param octave octave of Note added.
+   * @param beatNum beat number to place note at.
+   * @param instrument instrument of the note.
+   * @param volume the volume of the note added.
+   * @param pitch the pitch of the note added as a String. (see prior method for details)
+   * @throws IllegalArgumentException if it is an illegal note.
    */
   void addNote(int duration, int octave, int beatNum, int instrument, int volume, String pitch)
       throws IllegalArgumentException;
@@ -69,19 +77,44 @@ public interface MusicOperations {
    */
   String getMIDINotation();
 
+
+  //ALL NEW METHODS FOR CONVENIENCE TO VIEW::
+
   /**
+   * NEW METHOD to aid view play notes at given beat without parsing.
    * Gets a copy of the Notes that start at given beat number.
    * @param beatNum number to get notes from.
    * @return the list of notes.
    */
   ArrayList<INote> getNotesAt(int beatNum);
 
+  /**
+   * Gets the minimum note value.
+   * @return returns the min.
+   */
   int minNoteValue();
+
+  /**
+   * gets the max note value.
+   * @return the value.
+   */
   int maxNoteValue();
 
+  /**
+   * Gets the last beat of the song.
+   * @return the last beat number.
+   */
   int maxBeatNum();
 
+  /**
+   * Gets the Tempo of the song.
+   * @return the tempo of the song.
+   */
   int getTempo();
 
+  /**
+   * Sets the tempo of the song.
+   * @param tempo tempo to be set.
+   */
   void setTempo(int tempo);
 }
