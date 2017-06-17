@@ -1,6 +1,12 @@
 
 GUIVIEW:
 ---------------------------------------------------------------------------------------------------
+
+  GUIController:
+    -essentially just adds a keyListener to the view so the following commands are possible:
+      -the "VK_LEFT" (left key) moves the GUIView currentBeat to the left
+      -the "VK_RIGHT" (right key) moves the currentBeat to the right.
+      
   interface IGUIView extends ViewInterface:
     - an interface that extends the ViewInterface to allow for methods specific to the GUI
 
@@ -18,7 +24,7 @@ GUIVIEW:
       -PianoPanel
 
   class NotesPanel extend JPanel:
-    -A JPanel that is layed out to show all the notes played at each beat.
+    -A JPanel that is laid out to show all the notes played at each beat.
 
 MODEL:
 ---------------------------------------------------------------------------------------------------

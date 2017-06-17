@@ -27,6 +27,11 @@ public class GUIController {
     addListener();
   }
 
+  /**
+   * ADDS Following Commands:
+   * press left key to move the beat num left in the view.
+   * press right key to move the beat num right in the view.
+   */
   private void addKeyCommands() {
     this.keyCMDs = new HashMap<>();
     keyCMDs.put(39, () -> view.moveRight());

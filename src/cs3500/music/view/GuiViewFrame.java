@@ -21,7 +21,6 @@ public class GuiViewFrame extends JFrame implements IGUIView {
   private final PianoPanel pianoPanel;
   private MusicOperations model;
   private int currentBeat;
-  private GUIController controller;
 
   /**
    * Creates new GuiView.
@@ -30,9 +29,8 @@ public class GuiViewFrame extends JFrame implements IGUIView {
    * and orients the appropriately so they are all in their correct positions.</p>
    *
    */
-  public GuiViewFrame(MusicOperations model, GUIController controller) {
+  public GuiViewFrame(MusicOperations model) {
     this.model = model;
-    this.controller = controller;
 
     this.currentBeat = 0;
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,10 +89,5 @@ public class GuiViewFrame extends JFrame implements IGUIView {
       pianoPanel.moveLeft();
       notesPanel.moveLeft();
     }
-  }
-
-  @Override
-  public void setController(GUIController controller) {
-    this.controller = controller;
   }
 }

@@ -25,11 +25,4 @@ public interface IGUIView extends ViewInterface {
    * @param kl the keylistener to add.
    */
   void addKeyListener(KeyListener kl);
-
-
-  /**
-   * Sets the controller to the given one.
-   * @param controller the controller to control the view.
-   */
-  void setController(GUIController controller);
 }
