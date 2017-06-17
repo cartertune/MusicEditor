@@ -6,7 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * todo: javadoc
+ * View for music editor. Presents music as a grid of X's on beats and |'s on fades.
+ *  Beat number on negative y-axis while Pitch and Octave are on x-axis.
  */
 public class ConsoleView implements ViewInterface {
 
