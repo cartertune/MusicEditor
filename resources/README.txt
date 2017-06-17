@@ -1,87 +1,108 @@
 
+GUIVIEW:
+---------------------------------------------------------------------------------------------------
+  interface IGUIView extends ViewInterface:
+    - an interface that extends the ViewInterface to allow for methods specific to the GUI
+
+    METHODS:
+      -moveRight()/moveLeft() : moves the current beat left or right.
+      -addKeyListener()
+      -setController()
+
+  class GUIViewFrame extends JFrame implements IGUIView:
+    -crates a frame where which contains a NotesPanel for the notes by beat number reader and
+     a PianoPanel at the bottom which shows the keys currently being played.
+
+    FIELDS:
+      -NotesPanel (is turned into added to a JScrollPane to allow movement.)
+      -PianoPanel
+
+  class NotesPanel extend JPanel:
+    -A JPanel that is layed out to show all the notes played at each beat.
+
+MODEL:
+---------------------------------------------------------------------------------------------------
+  class Beat:
+    - Represents the Sound played at a single beat and whether it is the beginning of a note
+    or a note sustained.
+
+  class BeatNotations:
+
+    - Represents all the Beat at a single beat number. aka all the Beat played at the same time.
+
+  Enum BeatType:
+
+    - Distinguishes a beat between the beginning of a Note or a sustained Note.
 
 
-class Beat:
-  - Represents the Sound played at a single beat and whether it is the beginning of a note
-  or a note sustained.
+  class EditDuration implements INoteEditor:
 
-class BeatNotations:
+    -Used to edit a Duration of a given Note.
 
-  - Represents all the Beat at a single beat number. aka all the Beat played at the same time.
+  class EditOctave implements INoteEditor:
 
-Enum BeatType:
+    -Used to edit the octave of a given Note.
 
-  - Distinguishes a beat between the beginning of a Note or a sustained Note.
+  class EditPitch implements INoteEditor:
 
-Enum Duration:
+    -Used to edit the Pitch of a given Note.
 
-  -Represents the 3 different allowable durations for a note: a quarter, half, and whole note.
+  Interface INoteEditor:
 
-class EditDuration implements INoteEditor:
+    -An interface that has a function edit(Note), which does as expected; it edits a note.
 
-  -Used to edit a Duration of a given Note.
+  class MainMusic:
 
-class EditOctave implements INoteEditor:
+     -A class to demonstrate a basic piece being displayed on console.
 
-  -Used to edit the octave of a given Note.
+  class Music Model implenents MusicOperations:
 
-class EditPitch implements INoteEditor:
-
-  -Used to edit the Pitch of a given Note.
-
-Interface INoteEditor:
-
-  -An interface that has a function edit(Note), which does as expected; it edits a note.
-
-class MainMusic:
-
-   -A class to demonstrate a basic piece being displayed on console.
-
-class Music Model implenents MusicOperations:
-
-  -Used to implement methods from interface.
+    -Used to implement methods from interface.
 
 
-	FIELD: 
+    FIELD:
 
-		- Piece
+      - Piece
 
-interface MusicOperations:
+  interface MusicOperations:
 
-  -Represents the operations guaranteed by the model as follows.
+    -Represents the operations guaranteed by the model as follows.
 
 
-	METHODS:
+    METHODS:
 
-		-addNote(Note, int) //adds a note at given beat number.
+      -addNote(Note, int) //adds a note at given beat number.
 
-		-removeNote //removes a specified note and returns it
+      -removeNote //removes a specified note and returns it
 
-		-editNote //which edits a note in different ways depending on the INoteEditor it was given.
+      -editNote //which edits a note in different ways depending on the INoteEditor it was given.
 
-		-mergePiece // merges a given piece with the current one.
-		
-		-addPiece // adds the given piece at the end of the current one.
+      -mergePiece // merges a given piece with the current one.
 
-		-getMIDINotation //returns the song as MIDI Notation in String form
+      -addPiece // adds the given piece at the end of the current one.
 
-class Notations:
+      -getMIDINotation //returns the song as MIDI Notation in String form
 
-  -Represents the notes that start at the same beat number in a piece. (a List of Note).
+  class Notations:
 
-class Note:
+    -Represents the notes that start at the same beat number in a piece. (a List of Note).
 
-  -Represents a note in the music editor with a duration.
-	
-	FIELDS: 
-		-Sound // the octave and pitch of the note.
-		-Duration // the duration a note is played.
+  interface INote:
 
-class Piece:
+    -has a few methods that can get date from implementing Notes.
+  class Note implements INote:
 
-  - Represents a song by using a HashMap<Integer, Notations> where the Integer is the beat number
-      and the Notations are all the Notes at that beat number.
+    -Represents a note in the music editor with a duration.
 
-class Sound:
+    FIELDS:
+      -Sound // the octave and pitch of the note.
+      -Duration // the duration a note is played.
 
-  - Represents a Sound. aka a note without a specified duration.
+  class Piece:
+
+    - Represents a song by using a HashMap<Integer, Notations> where the Integer is the beat number
+        and the Notations are all the Notes at that beat number.
+
+  class Sound:
+
+    - Represents a Sound. aka a note without a specified duration.
