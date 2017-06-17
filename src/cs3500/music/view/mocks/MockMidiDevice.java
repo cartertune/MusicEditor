@@ -8,9 +8,17 @@ import javax.sound.midi.Transmitter;
 
 /**
  * A mock MidiDevice. Emulates the default MidiSynthesizer.
+ *  Primary purpose is to pass the view a Mock receiver, which logs any sent MidiMessages.
  */
-
 public class MockMidiDevice implements MidiDevice{
+
+  /**
+   * Returns a mock receiver, used to log the sending of MidiMessages.
+   */
+  @Override
+  public Receiver getReceiver() {
+    return new MockReceiver();
+  }
 
   @Override
   public Info getDeviceInfo() {
@@ -19,12 +27,12 @@ public class MockMidiDevice implements MidiDevice{
 
   @Override
   public void open() throws MidiUnavailableException {
-
+    //does nothing, because this is a mock
   }
 
   @Override
   public void close() {
-
+    //does nothing, because this is a mock
   }
 
   @Override
@@ -48,11 +56,6 @@ public class MockMidiDevice implements MidiDevice{
   }
 
   @Override
-  public Receiver getReceiver() throws MidiUnavailableException {
-    return new MockReceiver();
-  }
-
-  @Override
   public List<Receiver> getReceivers() {
     return null;
   }
@@ -66,6 +69,4 @@ public class MockMidiDevice implements MidiDevice{
   public List<Transmitter> getTransmitters() {
     return null;
   }
-
-
 }
