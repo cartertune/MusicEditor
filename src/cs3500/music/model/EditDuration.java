@@ -1,4 +1,5 @@
 package cs3500.music.model;
+
 /**
  * Edits the duration of the given note to the given duration.
  */

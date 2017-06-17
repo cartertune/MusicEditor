@@ -1,14 +1,11 @@
 package cs3500.music.view;
 
 import cs3500.music.model.INote;
-import cs3500.music.model.MusicModel;
 import cs3500.music.model.MusicOperations;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import javax.sound.sampled.Line;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -144,7 +141,7 @@ public class NotesPanel extends JPanel {
 
   private void drawMeasureLines(Graphics g) {
 
-    for (int i = 0; i < maxBeats; i+=4) {
+    for (int i = 0; i < maxBeats; i += 4) {
 
       g.drawLine(notesLabelWidth + i * beatWidth, 0,
           notesLabelWidth + i * beatWidth, panelHeight);

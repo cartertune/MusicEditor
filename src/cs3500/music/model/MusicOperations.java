@@ -37,6 +37,7 @@ public interface MusicOperations {
    */
   void addNote(int duration, int octave, int beatNum, int instrument, int volume, String pitch)
       throws IllegalArgumentException;
+
   /**
    * Removes a note from the song.
    * @param beatNum beat number to remove note from.

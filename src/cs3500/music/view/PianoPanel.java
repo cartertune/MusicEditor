@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -16,12 +15,12 @@ public class PianoPanel extends JPanel {
 
 
   private final MusicOperations model;
-  private final NotesPanel notesPanel;
   private int currentBeat;
 
   private final int width = 1260;
   private final int height = 200;
   private final int keyWidth = 18;
+
   /**
    * Initializes the piano to be able to respond according to given mode.
    */
@@ -29,7 +28,6 @@ public class PianoPanel extends JPanel {
 
     this.currentBeat = 0;
     this.model = model;
-    this.notesPanel = notesPanel;
     setPreferredSize(new Dimension(width, height));
     setBackground(Color.black);
   }

@@ -1,14 +1,7 @@
 package cs3500.music.view;
 
-import cs3500.music.controller.GUIController;
 import cs3500.music.model.MusicOperations;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
-
-import javafx.geometry.Orientation;
-import javafx.scene.control.SplitPane;
 import javax.swing.*;
 
 /**
@@ -55,7 +48,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
 
 
   @Override
-  public void initialize(){
+  public void initialize() {
     this.setVisible(true);
   }
 

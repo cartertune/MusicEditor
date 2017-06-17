@@ -1,9 +1,6 @@
 package cs3500.music.view;
 
 import cs3500.music.model.MusicOperations;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * View for music editor. Presents music as a grid of X's on beats and |'s on fades.

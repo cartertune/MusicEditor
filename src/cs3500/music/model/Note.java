@@ -26,6 +26,13 @@ public class Note implements INote {
     this.volume = 64;
   }
 
+  /**
+   * Alternate constructor. Allows control over midi volume and instrument.
+   * @param sound this note's pitch and octave
+   * @param duration this note's duration in beats
+   * @param instrument the Midi instrument of this note
+   * @param volume this note's volume
+   */
   public Note(Sound sound, int duration, int instrument, int volume) {
 
     this.sound = sound;

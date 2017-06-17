@@ -1,6 +1,6 @@
 package cs3500.music;
 
-import cs3500.music.model.MusicModel;
+import cs3500.music.model.MusicModel.CompBuilder;
 import cs3500.music.model.MusicOperations;
 
 import cs3500.music.util.MusicReader;
@@ -28,11 +28,11 @@ public class MusicEditor {
 
 
     MusicOperations model = MusicReader.parseFile(new FileReader("mary-little-lamb.txt"),
-            new MusicModel.compBuilder());
+            new CompBuilder());
     MusicOperations model2 = MusicReader.parseFile(new FileReader("mystery-1.txt"),
-        new MusicModel.compBuilder());
+        new CompBuilder());
     MusicOperations model3 = MusicReader.parseFile(new FileReader("mystery-2.txt"),
-        new MusicModel.compBuilder());
+        new CompBuilder());
     ViewFactory factory = new ViewFactory();
     ViewInterface guiView = factory.makeView(model3, "gui");
     ViewInterface midiView = factory.makeView(model2, "midi");

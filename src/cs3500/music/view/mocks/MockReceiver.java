@@ -7,12 +7,11 @@ import javax.sound.midi.Receiver;
  * A mock Receiver. Emulates the synthesizer's receiver.
  *  Primary purpose is to log any MidiMessages sent.
  */
-public class MockReceiver implements Receiver{
+public class MockReceiver implements Receiver {
   private StringBuilder sendLog = new StringBuilder();
 
   /**
    * Logs the given message and timeStamp
-   *
    * Log Format:
    * "[timeStamp] [Message]\n"
    *        ... repeat

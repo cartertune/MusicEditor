@@ -3,8 +3,14 @@ package cs3500.music.view;
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiDevice;
+
 import java.util.ArrayList;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 
 /**
  * View for Music Editor. Presents music through sound, instead of visuals.

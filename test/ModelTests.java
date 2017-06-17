@@ -1,16 +1,9 @@
 import static junit.framework.TestCase.assertEquals;
 
-import cs3500.music.model.EditDuration;
-import cs3500.music.model.EditOctave;
-import cs3500.music.model.EditPitch;
 import cs3500.music.model.MusicModel;
-import cs3500.music.model.Notations;
 import cs3500.music.model.Note;
-import cs3500.music.model.Piece;
 import cs3500.music.model.Pitch;
 import cs3500.music.model.Sound;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.junit.Test;
 

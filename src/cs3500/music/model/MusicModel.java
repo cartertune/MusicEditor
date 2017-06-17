@@ -7,7 +7,6 @@ import java.util.ArrayList;
 /**
  * A class to represent the model of the MusicEditor.
  * Contains a piece which is a contains all the Notes played in a song. All at different times.
- *
  */
 public class MusicModel implements MusicOperations {
 
@@ -19,7 +18,7 @@ public class MusicModel implements MusicOperations {
    * Makes a MusicModel out of the one built by the given Composition Builder.
    * @param compBuilder the composition builder that builds this model.
    */
-  private MusicModel(compBuilder compBuilder) {
+  private MusicModel(CompBuilder compBuilder) {
     this.tempo = compBuilder.tempo;
     this.piece = compBuilder.piece;
   }
@@ -35,18 +34,19 @@ public class MusicModel implements MusicOperations {
   /**
    * Implements CompositionBuilder in a way that adapts it for this music model.
    */
-  public static class compBuilder implements CompositionBuilder<MusicModel> {
+  public static class CompBuilder implements CompositionBuilder<MusicModel> {
 
 
     private int tempo;
     private Piece piece = new Piece();
 
 
-    public compBuilder() {
-
+    public CompBuilder() {
+      tempo = 60;
     }
+
     /**
-     * Constructs an actual composition, given the notes that have been added
+     * Constructs an actual composition, given the notes that have been added.
      *
      * @return The new composition
      */
@@ -56,7 +56,7 @@ public class MusicModel implements MusicOperations {
     }
 
     /**
-     * Sets the tempo of the piece
+     * Sets the tempo of the piece.
      *
      * @param tempo The speed, in microseconds per beat
      * @return This builder
@@ -69,13 +69,12 @@ public class MusicModel implements MusicOperations {
     }
 
     /**
-     * Adds a new note to the piece
+     * Adds a new note to the piece.
      *
      * @param start The start time of the note, in beats
      * @param end The end time of the note, in beats
      * @param instrument The instrument number (to be interpreted by MIDI)
-     * @param pitch The pitch (in the range [0, 127], where 60 represents C4, the middle-C on a
-     * piano)
+     * @param pitch The pitch (in the range [0, 127], where 60 represents C4, the piano's middle-C
      * @param volume The volume (in the range [0, 127])
      */
     @Override
@@ -198,23 +197,23 @@ public class MusicModel implements MusicOperations {
       switch (editorType) {
 
         case "Duration":
-          try {return new EditDuration(Integer.valueOf(param));}
-          catch (NumberFormatException e) {
+          try {
+            return new EditDuration(Integer.valueOf(param));
+          } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid duration, provide an integer.");
           }
         case "Pitch":
           return new EditPitch(pitchSelector(param));
         case "Octave":
-          try {return new EditOctave(Integer.valueOf(param));}
-          catch (NumberFormatException e) {
+          try {
+            return new EditOctave(Integer.valueOf(param));
+          } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid octave, provide an integer.");
           }
         default:
           throw new IllegalArgumentException("Invalid editor given. Reference JavaDoc.");
       }
-
     }
-
     throw new IllegalArgumentException("Please give only 2 arguments "
         + "to edit a note. Reference JavaDoc.");
   }

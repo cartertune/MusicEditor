@@ -10,7 +10,7 @@ import javax.sound.midi.Transmitter;
  * A mock MidiDevice. Emulates the default MidiSynthesizer.
  *  Primary purpose is to pass the view a Mock receiver, which logs any sent MidiMessages.
  */
-public class MockMidiDevice implements MidiDevice{
+public class MockMidiDevice implements MidiDevice {
 
   /**
    * Returns a mock receiver, used to log the sending of MidiMessages.

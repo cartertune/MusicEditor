@@ -1,6 +1,5 @@
 package cs3500.music.view;
 
-import cs3500.music.controller.GUIController;
 import java.awt.event.KeyListener;
 
 /**
