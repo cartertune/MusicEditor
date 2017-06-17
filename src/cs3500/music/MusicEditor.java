@@ -1,12 +1,10 @@
 package cs3500.music;
 
-import cs3500.music.controller.GUIController;
 import cs3500.music.model.MusicModel;
 import cs3500.music.model.MusicOperations;
 
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
+
 
 
 import cs3500.music.view.ViewFactory;
@@ -18,6 +16,13 @@ import javax.sound.midi.InvalidMidiDataException;
 
 
 public class MusicEditor {
+
+  /**
+   * Initializes various view for various models.
+   * @param args arguments
+   * @throws IOException if cant happen.
+   * @throws InvalidMidiDataException if midi cant be played.
+   */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
 
 

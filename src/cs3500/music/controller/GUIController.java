@@ -43,7 +43,7 @@ public class GUIController {
     view.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
-
+        //do nothing.
       }
 
       @Override
@@ -55,7 +55,7 @@ public class GUIController {
 
       @Override
       public void keyReleased(KeyEvent e) {
-
+        //do nothing
       }
     });
   }
