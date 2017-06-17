@@ -15,7 +15,7 @@ public class ConsoleViewTest {
 
   @Test
   public void initializeTest() throws Exception {
-    MusicOperations model = MusicReader.parseFile(new FileReader("mystery-2.txt"),
+    MusicOperations model = MusicReader.parseFile(new FileReader("mystery-1.txt"),
         new MusicModel.compBuilder());
 
     ConsoleView view = new ConsoleView(model);

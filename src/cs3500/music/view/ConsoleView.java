@@ -19,19 +19,21 @@ public class ConsoleView implements ViewInterface {
   @Override
   public void initialize() {
 
-//todo: delete, used to output mary.txt file
-//    FileWriter fw = null;
-//    try {
-//      fw = new FileWriter("midi-transcript.txt");
-//
-//    BufferedWriter bw = new BufferedWriter(fw);
-//    bw.write(model.getMIDINotation());
-//
-//    bw.close();
-//    fw.close();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
+    //Used to output console file
+    /*
+    FileWriter fw = null;
+    try {
+      fw = new FileWriter("console-transcript.txt");
+
+    BufferedWriter bw = new BufferedWriter(fw);
+    bw.write(model.getMIDINotation());
+
+    bw.close();
+    fw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    */
     System.out.print(model.getMIDINotation());
   }
 }
