@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class MidiViewImpl implements ViewInterface {
 
 
-  private Synthesizer synth;
+  private MidiDevice synth; //Abstracted from Synthesizer to MidiDevice to enable us of mock Device.
   private Receiver receiver;
   private MusicOperations piece;
 
@@ -22,7 +22,7 @@ public class MidiViewImpl implements ViewInterface {
    * @throws IllegalArgumentException if model is null
    * @throws IllegalStateException if system midi is inaccessible
    */
-  public MidiViewImpl(MusicOperations model){
+  public MidiViewImpl(MusicOperations model) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
@@ -32,9 +32,27 @@ public class MidiViewImpl implements ViewInterface {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
       this.synth.open();
-      this.receiver = synth.getReceiver();
     } catch (MidiUnavailableException e) {
       throw new IllegalStateException("System unsupported. System midi output unavailable.");
+    }
+  }
+
+
+  /**
+   * Constructor reserved for mock usage.
+   * @param mockDevice the mock Midi Device to be used instead of a Synthesizer
+   * @throws IllegalArgumentException if a non-mock MidiDevice is given.
+   */
+  public MidiViewImpl(MidiDevice mockDevice) {
+    if (mockDevice == null) {
+      throw new IllegalArgumentException("Mock Midi Device cannot be null.");
+    }
+    this.synth = mockDevice;
+
+    try {
+      this.receiver = synth.getReceiver();//returns mock receiver
+    } catch (MidiUnavailableException e) { //mock does not check for midi availabilty
+      throw new IllegalArgumentException("Not a mock midi device");
     }
   }
 
