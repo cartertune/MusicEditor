@@ -20,6 +20,7 @@ public class MockMidiDevice implements MidiDevice{
     return new MockReceiver();
   }
 
+
   @Override
   public Info getDeviceInfo() {
     return null;

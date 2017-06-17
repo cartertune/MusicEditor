@@ -2,6 +2,8 @@ package cs3500.music.view;
 
 import static org.junit.Assert.*;
 
+import cs3500.music.view.mocks.MockMidiDevice;
+import javax.sound.midi.MidiDevice;
 import org.junit.Test;
 
 /**
@@ -11,8 +13,9 @@ public class MidiViewImplTest {
 
   @Test
   public void testSequencer() throws Exception {
-    MidiViewImpl view = new MidiViewImpl(null); //change to ViewInterface for real deal
+    MidiDevice mockDevice = new MockMidiDevice();
 
+    //ViewInterface view = new MidiViewImpl();
 
   }
 
