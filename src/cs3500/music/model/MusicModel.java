@@ -16,6 +16,7 @@ public class MusicModel implements MusicOperations {
 
   /**
    * Makes a MusicModel out of the one built by the given Composition Builder.
+   *
    * @param compBuilder the composition builder that builds this model.
    */
   private MusicModel(CompBuilder compBuilder) {
@@ -89,7 +90,6 @@ public class MusicModel implements MusicOperations {
 
   @Override
   public void addNote(int duration, int octave, int beatNum, String pitch) {
-
 
     Pitch p = pitchSelector(pitch);
 

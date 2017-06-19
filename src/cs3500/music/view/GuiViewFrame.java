@@ -25,6 +25,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
   public GuiViewFrame(MusicOperations model) {
     this.model = model;
 
+
     this.currentBeat = 0;
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     beatNumLabel = new JPanel();
