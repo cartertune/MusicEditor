@@ -35,9 +35,7 @@ public class CompositeView implements IGUIView {
     gui.initialize();
   }
 
-  /**
-   * If the music is not playing, it plays the music at current beat, else it pauses the song.
-   */
+  // TODO: 6/21/17 This will be simple but take time to write.
   @Override
   public void playPause() {
 
@@ -48,7 +46,11 @@ public class CompositeView implements IGUIView {
    */
   @Override
   public void scrollLeft() {
-
+    if (currentBeat > 0) {
+      currentBeat--;
+      midi.scrollLeft();
+      gui.scrollLeft();
+    }
   }
 
   /**
@@ -57,6 +59,11 @@ public class CompositeView implements IGUIView {
   @Override
   public void scrollRight() {
 
+    if (currentBeat < model.maxBeatNum()) {
+      currentBeat++;
+      midi.scrollRight();
+      gui.scrollRight();
+    }
   }
 
   /**
@@ -65,6 +72,9 @@ public class CompositeView implements IGUIView {
   @Override
   public void jumpToEnd() {
 
+    currentBeat = model.maxBeatNum();
+    midi.jumpToEnd();
+    gui.jumpToEnd();
   }
 
   /**
@@ -72,7 +82,9 @@ public class CompositeView implements IGUIView {
    */
   @Override
   public void jumpToBeginning() {
-
+    currentBeat = 0;
+    midi.jumpToBeginning();
+    gui.jumpToBeginning();
   }
 
   /**
@@ -83,6 +95,7 @@ public class CompositeView implements IGUIView {
   @Override
   public void addNoteAt(MouseEvent me) {
 
+    gui.addNoteAt(me);
   }
 
   /**
@@ -93,10 +106,11 @@ public class CompositeView implements IGUIView {
   @Override
   public void addKeyListener(KeyListener kl) {
 
+    gui.addKeyListener(kl);
   }
 
   @Override
   public void addMouseListener(MouseListener ml) {
-
+    gui.addMouseListener(ml);
   }
 }
