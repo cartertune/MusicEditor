@@ -9,10 +9,11 @@ import java.util.HashMap;
 /**
  * Class to represent a simple controller for the GUIView.
  */
-public class GUIController {
+public class Controller {
 
   private final IGUIView view;
   private HashMap<Integer, Runnable> keyCMDs;
+  private final MusicOperations model;
 
   /**
    * Creates a controller for the given view, adds the KeyCommands specified in addKeyCommands(),
@@ -20,11 +21,12 @@ public class GUIController {
    *
    * @param view the view to control.
    */
-  public GUIController(IGUIView view, MusicOperations model) {
+  public Controller(IGUIView view, MusicOperations model) {
 
     this.view = view;
+    this.model = model;
     addKeyCommands();
-    addListener();
+    addListenersToView();
   }
 
   /**
@@ -34,11 +36,11 @@ public class GUIController {
    */
   private void addKeyCommands() {
     this.keyCMDs = new HashMap<>();
-    keyCMDs.put(39, () -> view.moveRight());
-    keyCMDs.put(37, () -> view.moveLeft());
+    keyCMDs.put(39, () -> view.scrollRight());
+    keyCMDs.put(37, () -> view.scrollLeft());
   }
 
-  private void addListener() {
+  private void addListenersToView() {
 
     view.addKeyListener(new KeyListener() {
       @Override

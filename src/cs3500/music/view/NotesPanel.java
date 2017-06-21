@@ -148,13 +148,23 @@ public class NotesPanel extends JPanel {
     }
   }
 
-  void moveRight() {
+  void scrollRight() {
     currentBeat++;
     repaint();
   }
 
-  void moveLeft() {
+  void scrollLeft() {
     currentBeat--;
+    repaint();
+  }
+
+  void jumpToEnd() {
+    currentBeat = model.maxBeatNum();
+    repaint();
+  }
+
+  void jumpToBeginning() {
+    currentBeat = 0;
     repaint();
   }
 }

@@ -15,7 +15,7 @@ import javax.sound.midi.ShortMessage;
 /**
  * View for Music Editor. Presents music through sound, instead of visuals.
  */
-public class MidiViewImpl implements ViewInterface {
+public class MidiViewImpl implements EnhancedView {
 
 
   private MidiDevice synth; //Abstracted from Synthesizer to MidiDevice to enable us of mock Device.

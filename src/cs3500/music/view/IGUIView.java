@@ -1,27 +1,27 @@
 package cs3500.music.view;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * An interface that extends the ViewInterface so that the view can have methods the
  * MIDIview does not need.
  */
-public interface IGUIView extends ViewInterface {
+public interface IGUIView extends EnhancedView {
 
 
   /**
-   * Moves the current beat to the right... moves forward in the song.
+   * Adds a quarter note at current beat with a default volume, and instrument at current beat.
+   * @param me the mouse event to use to find the key pressed.
    */
-  void moveRight();
-
-  /**
-   * moves the current beat of the song to the left, rewinds it.
-   */
-  void moveLeft();
+  void addNoteAt(MouseEvent me);
 
   /**
    * Adds the given keyListener to the view.
    * @param kl the keylistener to add.
    */
   void addKeyListener(KeyListener kl);
+
+  void addMouseListener(MouseListener ml);
 }

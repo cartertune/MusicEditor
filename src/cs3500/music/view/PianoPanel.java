@@ -5,6 +5,7 @@ import cs3500.music.model.MusicOperations;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -94,13 +95,29 @@ public class PianoPanel extends JPanel {
     return p == 1 || p == 3 || p == 6 || p == 8 || p == 10;
   }
 
-  void moveRight() {
+  void scrollRight() {
     currentBeat++;
     repaint();
   }
 
-  void moveLeft() {
+  void scrollLeft() {
     currentBeat--;
     repaint();
+  }
+
+  void jumpToBeginning() {
+    currentBeat = 0;
+    repaint();
+  }
+
+  void jumpToEnd() {
+
+    currentBeat = model.maxBeatNum();
+    repaint();
+  }
+
+  // TODO: 6/21/17
+  public int noteDecifer(Point point) {
+    return 0;
   }
 }
