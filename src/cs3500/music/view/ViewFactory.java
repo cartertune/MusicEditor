@@ -20,6 +20,8 @@ public class ViewFactory {
         return new GuiViewFrame(model);
       case "midi":
         return new MidiViewImpl(model);
+      case "composite":
+        return new CompositeView(model);
       default:
         throw new IllegalArgumentException("Invalid class given.");
     }
