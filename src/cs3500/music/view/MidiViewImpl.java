@@ -107,4 +107,44 @@ public class MidiViewImpl implements EnhancedView {
       throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
     }
   }
+
+  /**
+   * If the music is not playing, it plays the music at current beat, else it pauses the song.
+   */
+  @Override
+  public void playPause() {
+
+  }
+
+  /**
+   * Scrolls the current beat to the left if possible.
+   */
+  @Override
+  public void scrollLeft() {
+
+  }
+
+  /**
+   * Scrolls the current beat to the right if possible.
+   */
+  @Override
+  public void scrollRight() {
+
+  }
+
+  /**
+   * Jumps ot the end of the song.
+   */
+  @Override
+  public void jumpToEnd() {
+
+  }
+
+  /**
+   * Jumps to the beginning of the song.
+   */
+  @Override
+  public void jumpToBeginning() {
+
+  }
 }

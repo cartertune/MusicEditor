@@ -9,11 +9,12 @@ import java.util.HashMap;
 /**
  * Class to represent a simple controller for the GUIView.
  */
-public class Controller {
+public class Controller implements MusicController {
 
   private final IGUIView view;
-  private HashMap<Integer, Runnable> keyCMDs;
+  private final MusicKeyListener keyListener;
   private final MusicOperations model;
+  private final MusicMouseListener mouseListener;
 
   /**
    * Creates a controller for the given view, adds the KeyCommands specified in addKeyCommands(),
@@ -25,40 +26,14 @@ public class Controller {
 
     this.view = view;
     this.model = model;
-    addKeyCommands();
-    addListenersToView();
+
+    this.keyListener = new MusicKeyListener(view);
+    this.mouseListener = new MusicMouseListener(view);
   }
 
-  /**
-   * ADDS Following Commands:
-   * press left key to move the beat num left in the view.
-   * press right key to move the beat num right in the view.
-   */
-  private void addKeyCommands() {
-    this.keyCMDs = new HashMap<>();
-    keyCMDs.put(39, () -> view.scrollRight());
-    keyCMDs.put(37, () -> view.scrollLeft());
-  }
+  @Override
+  public void addNote(int octave, int beatNum, String pitch) {
 
-  private void addListenersToView() {
-
-    view.addKeyListener(new KeyListener() {
-      @Override
-      public void keyTyped(KeyEvent e) {
-        //do nothing.
-      }
-
-      @Override
-      public void keyPressed(KeyEvent e) {
-        if (keyCMDs.containsKey(e.getKeyCode())) {
-          keyCMDs.get(e.getKeyCode()).run();
-        }
-      }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-        //do nothing
-      }
-    });
+    model.addNote(1, octave,beatNum, pitch);
   }
 }
