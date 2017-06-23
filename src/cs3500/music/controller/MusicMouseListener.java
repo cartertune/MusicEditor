@@ -6,15 +6,21 @@ import java.awt.event.MouseListener;
 
 
 /**
- * Class used to add notes on mouse click.
+ * Class used to add notes on mouse press to given view and to the model represented in given
+ * controller.
  */
-public class MusicMouseListener implements MouseListener {
+class MusicMouseListener implements MouseListener {
 
   private final MusicController controller;
   private IGUIView view;
 
-  MusicMouseListener(IGUIView view, MusicController controller)
-  {
+  /**
+   * Creates this MusicMouseListener and adds it to given view.
+   *
+   * @param view the view to add listener to.
+   * @param controller the controller the view should send the data back to.
+   */
+  MusicMouseListener(IGUIView view, MusicController controller) {
     this.controller = controller;
     this.view = view;
     view.addMouseListener(this);

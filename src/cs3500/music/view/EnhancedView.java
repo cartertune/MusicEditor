@@ -4,10 +4,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 
 /**
- * Simple interface for music editor views.
+ * Simple interface for music editor views that are more advanced than a console output.
  */
 public interface EnhancedView extends ViewInterface {
-
 
 
   /**

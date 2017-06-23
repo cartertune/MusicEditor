@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MusicModel implements MusicOperations {
 
 
-  private int tempo; //NEW field to represent the tempo of the song.
+  private int tempo;
   private Piece piece;
 
   /**

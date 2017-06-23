@@ -1,7 +1,7 @@
 package cs3500.music.controller;
 
 /**
- * Created by cartertune on 6/22/17.
+ * An Interface to represent controllers for Music Models.
  */
 public interface MusicController {
 

@@ -79,8 +79,6 @@ public interface MusicOperations {
   String getMIDINotation();
 
 
-  //ALL NEW METHODS FOR CONVENIENCE TO VIEW::
-
   /**
    * NEW METHOD to aid view play notes at given beat without parsing.
    * Gets a copy of the Notes that start at given beat number.

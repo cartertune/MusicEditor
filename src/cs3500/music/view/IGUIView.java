@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 /**
  * An interface that extends the ViewInterface so that the view can have methods the
- * MIDIview does not need.
+ * MIDI View and console view does not need.
  */
 public interface IGUIView extends EnhancedView {
 
@@ -24,5 +24,9 @@ public interface IGUIView extends EnhancedView {
    */
   void addKeyListener(KeyListener kl);
 
+  /**
+   * adds the given mouse listener to the piano panel.
+   * @param ml the mouse listener to be added.
+   */
   void addMouseListener(MouseListener ml);
 }

@@ -2,19 +2,17 @@ package cs3500.music.controller;
 
 import cs3500.music.model.MusicOperations;
 import cs3500.music.view.IGUIView;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.HashMap;
+
 
 /**
- * Class to represent a simple controller for the GUIView.
+ * Class used to control the relationship between an IGUIView and a MusicOperations.
+ * Check MusicKeyListener and MusicMouseListener for command details.
  */
 public class Controller implements MusicController {
 
-  private final IGUIView view;
-  private final MusicKeyListener keyListener;
+
   private final MusicOperations model;
-  private final MusicMouseListener mouseListener;
+
 
   /**
    * Creates a controller for the given view, adds the KeyCommands specified in addKeyCommands(),
@@ -24,11 +22,10 @@ public class Controller implements MusicController {
    */
   public Controller(IGUIView view, MusicOperations model) {
 
-    this.view = view;
     this.model = model;
 
-    this.keyListener = new MusicKeyListener(view);
-    this.mouseListener = new MusicMouseListener(view, this);
+    new MusicKeyListener(view);
+    new MusicMouseListener(view, this);
   }
 
   @Override

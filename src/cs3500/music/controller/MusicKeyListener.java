@@ -1,8 +1,5 @@
 package cs3500.music.controller;
 
-import static com.sun.webkit.event.WCKeyEvent.VK_RIGHT;
-
-import cs3500.music.view.EnhancedView;
 import cs3500.music.view.IGUIView;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by cartertune on 6/22/17.
+ * A KeyListener that manipulates an IGUIView.
+ * Look at JavaDoc for addKeyCommands to look at actual commands.
  */
 public class MusicKeyListener implements KeyListener {
 
@@ -19,6 +17,10 @@ public class MusicKeyListener implements KeyListener {
   private Map<Integer, Runnable> keyCMDs;
   private IGUIView view;
 
+  /**
+   * Creates this MusicKeyListener and adds it to given view.
+   * @param view view to add listener to.
+   */
   MusicKeyListener(IGUIView view) {
 
     this.view = view;
@@ -28,9 +30,13 @@ public class MusicKeyListener implements KeyListener {
   }
 
   /**
-   * ADDS Following Commands:
+   * ADDS Following Commands in this order:
    * press left key to move the beat num left in the view.
    * press right key to move the beat num right in the view.
+   * press home key to jump to the beginning of the song.
+   * press the end key to jump to the end of the song.
+   * press the SPACE bar to play or pause the song.
+   *
    */
   private void addKeyCommands() {
     this.keyCMDs = new HashMap<>();

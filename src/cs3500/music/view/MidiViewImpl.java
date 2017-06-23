@@ -74,15 +74,9 @@ public class MidiViewImpl implements EnhancedView {
    * @throws IllegalStateException if the thread sleep is interrupted.
    */
   @Override
-  public void initialize() { //todo: use while loop
-    //isPlaying = true; //start playing on initialize, easy to change if needed.
+  public void initialize() {
+    isPlaying = true;
 
-
-//    try { //sleep for entire duration of piece.
-//      Thread.sleep(((long)600000000 * (long)piece.maxBeatNum() ) / (long)piece.getTempo());
-//    } catch (InterruptedException e) {
-//      throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
-//    }
   }
 
   private void playNoteAtCurrentBeat() {

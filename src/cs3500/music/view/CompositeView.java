@@ -11,6 +11,7 @@ import java.util.TimerTask;
 
 /**
  * Combines a MidiView and a GUIView into a synchronized music editor.
+ * Uses a timer to appropriately play notes and advance song.
  */
 public class CompositeView implements IGUIView {
 
@@ -18,18 +19,23 @@ public class CompositeView implements IGUIView {
   private final MidiViewImpl midi;
   private final GuiViewFrame gui;
 
-  private long tempoInMilliSeconds;
   private int currentBeat;
   private boolean isPlaying;
-  private Timer timer = new Timer();
 
+  /**
+   * Creates a composite view for given model, and sets a timer that advances song as long as it is
+   * not paused.
+   * @param model model represented by view.
+   */
   CompositeView(MusicOperations model) {
     this.model = model;
     this.midi = new MidiViewImpl(model);
     this.gui = new GuiViewFrame(model);
     this.currentBeat = 0;
     this.isPlaying = false;
-    tempoInMilliSeconds = model.getTempo() / 1000;
+
+    long tempoInMilliSeconds = model.getTempo() / 1000;
+    Timer timer = new Timer();
     timer.scheduleAtFixedRate(new MusicTimer(), 0, tempoInMilliSeconds);
     new Controller(this, model);
   }
@@ -44,7 +50,6 @@ public class CompositeView implements IGUIView {
     gui.initialize();
   }
 
-  // TODO: 6/21/17 This will be simple but take time to write.
   @Override
   public void playPause() {
 
@@ -127,11 +132,17 @@ public class CompositeView implements IGUIView {
     gui.addMouseListener(ml);
   }
 
+  /**
+   * Creates a TimerTask to play the song when it is not paused at correct tempo.
+   */
   public class MusicTimer extends TimerTask {
 
+    /**
+     * Creates a music timer.
+     */
     MusicTimer() {}
     /**
-     * The action to be performed by this timer task.
+     * If the view is not paused, it advances to the next beat at each tick.
      */
     @Override
     public void run() {

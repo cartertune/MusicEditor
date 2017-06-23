@@ -10,7 +10,7 @@ public class ConsoleView implements ViewInterface {
 
   private final MusicOperations model;
 
-  public ConsoleView(MusicOperations model) {
+  ConsoleView(MusicOperations model) {
     this.model = model;
   }
 

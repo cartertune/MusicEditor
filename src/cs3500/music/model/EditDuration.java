@@ -5,7 +5,7 @@ package cs3500.music.model;
  */
 public class EditDuration implements INoteEditor {
 
-  int duration;
+  private int duration;
 
   /**
    * Creates a duration editor that edits notes to the given duration.

@@ -16,8 +16,7 @@ public class ModelTests {
   public void testAddAndRemoveNote() {
     MusicModel model = new MusicModel();
 
-    model.addNote(4, 8,1,"CSHARP");
-
+    model.addNote(4, 8, 1, "CSHARP");
 
     assertEquals(true, model.getMIDINotation().contains("C#8")
         && model.getMIDINotation().contains("4"));
@@ -27,6 +26,9 @@ public class ModelTests {
     System.out.print(model.getMIDINotation());
   }
 
+  /**
+   * Tests that an error is thrown when illegally trying to remove a note.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testIllegalRemove() {
     MusicModel model = new MusicModel();
@@ -38,11 +40,13 @@ public class ModelTests {
     Note n2 = new Note(s2, 1);
     Note n3 = new Note(s3, 4);
 
-
     model.removeNote(54, "ASHARP", 5);
 
   }
 
+  /**
+   * Ensures an error is thrown if given an invalid octave.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testOctaveLimit() {
 
@@ -51,6 +55,9 @@ public class ModelTests {
     new Sound(400);
   }
 
+  /**
+   * Ensures an error is thrown if given an invalid octave.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testOctaveLimit2() {
 
@@ -59,6 +66,9 @@ public class ModelTests {
     new Sound(Pitch.ASHARP, 40);
   }
 
+  /**
+   * Ensures an error is thrown if given an invalid octave.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testOctaveLimit3() {
 
@@ -69,12 +79,15 @@ public class ModelTests {
   }
 
 
+  /**
+   * Tests to ensure getMIDINotation returns as expected and has equal length lines.
+   */
   @Test
   public void testGetMIDINotation() {
 
     MusicModel model = new MusicModel();
 
-    model.addNote(1,1,1,"C");
+    model.addNote(1, 1, 1, "C");
 
     System.out.print(model.getMIDINotation());
 
