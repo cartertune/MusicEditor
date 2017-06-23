@@ -3,8 +3,7 @@ package cs3500.music.controller;
 import cs3500.music.view.IGUIView;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Class used to add notes on mouse click.

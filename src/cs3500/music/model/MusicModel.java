@@ -29,7 +29,7 @@ public class MusicModel implements MusicOperations {
    */
   public MusicModel() {
     this.piece = new Piece();
-    this.tempo = 90;
+    this.tempo = 200000;
   }
 
   /**

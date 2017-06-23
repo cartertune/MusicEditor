@@ -1,10 +1,13 @@
 package cs3500.music.view;
 
+import cs3500.music.controller.Controller;
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicOperations;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Combines a MidiView and a GUIView into a synchronized music editor.
@@ -15,8 +18,10 @@ public class CompositeView implements IGUIView {
   private final MidiViewImpl midi;
   private final GuiViewFrame gui;
 
+  private long tempoInMilliSeconds;
   private int currentBeat;
   private boolean isPlaying;
+  private Timer timer = new Timer();
 
   CompositeView(MusicOperations model) {
     this.model = model;
@@ -24,7 +29,11 @@ public class CompositeView implements IGUIView {
     this.gui = new GuiViewFrame(model);
     this.currentBeat = 0;
     this.isPlaying = false;
+    tempoInMilliSeconds = model.getTempo() / 1000;
+    timer.scheduleAtFixedRate(new MusicTimer(), 0, tempoInMilliSeconds);
+    new Controller(this, model);
   }
+
 
   /**
    * Allows the view to be viewed, such as by exposing an invisible panel, or playing a song.
@@ -33,13 +42,16 @@ public class CompositeView implements IGUIView {
   public void initialize() {
 
     gui.initialize();
-    midi.initialize();
   }
 
   // TODO: 6/21/17 This will be simple but take time to write.
   @Override
   public void playPause() {
 
+
+    isPlaying = !isPlaying;
+    midi.playPause();
+    gui.playPause();
   }
 
   /**
@@ -113,5 +125,19 @@ public class CompositeView implements IGUIView {
   @Override
   public void addMouseListener(MouseListener ml) {
     gui.addMouseListener(ml);
+  }
+
+  public class MusicTimer extends TimerTask {
+
+    MusicTimer() {}
+    /**
+     * The action to be performed by this timer task.
+     */
+    @Override
+    public void run() {
+      if (isPlaying) {
+        scrollRight();
+      }
+    }
   }
 }

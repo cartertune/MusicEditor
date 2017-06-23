@@ -47,7 +47,6 @@ public class GuiViewFrame extends JFrame implements IGUIView {
     getContentPane().add(pianoPanel, BorderLayout.SOUTH);
     setSize(new Dimension(1260, 700));
     setResizable(false);
-    new Controller(this, model);
   }
 
 

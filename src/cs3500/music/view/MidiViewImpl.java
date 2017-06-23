@@ -30,7 +30,7 @@ public class MidiViewImpl implements EnhancedView {
    * @throws IllegalArgumentException if model is null
    * @throws IllegalStateException if system midi is inaccessible
    */
-  public MidiViewImpl(MusicOperations model) {
+  MidiViewImpl(MusicOperations model) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
@@ -75,17 +75,24 @@ public class MidiViewImpl implements EnhancedView {
    */
   @Override
   public void initialize() { //todo: use while loop
-    isPlaying = true; //start playing on initialize, easy to change if needed.
+    //isPlaying = true; //start playing on initialize, easy to change if needed.
 
 
-    while (isPlaying) {
+//    try { //sleep for entire duration of piece.
+//      Thread.sleep(((long)600000000 * (long)piece.maxBeatNum() ) / (long)piece.getTempo());
+//    } catch (InterruptedException e) {
+//      throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
+//    }
+  }
+
+  private void playNoteAtCurrentBeat() {
+    if (isPlaying) {
       ArrayList<INote> notes = piece.getNotesAt(currentBeat);
       if (!notes.isEmpty()) { //if there are notes beginning at this time
         for (INote note : notes) { //For each note at this time, send 2 messages
 
           long timeStamp = this.synth.getMicrosecondPosition();
-          long duration = ((100 * (long) 600000000 * (long) note.getDuration()) /
-              (long) piece.getTempo());
+          long duration = piece.getTempo();
 
           try {
             this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
@@ -105,36 +112,42 @@ public class MidiViewImpl implements EnhancedView {
         }
       }
     }
-
-    try { //sleep for entire duration of piece.
-      Thread.sleep(((long)600000000 * (long)piece.maxBeatNum() ) / (long)piece.getTempo());
-    } catch (InterruptedException e) {
-      throw new IllegalStateException("Thread sleep interrupted. " + e.getMessage());
-    }
   }
 
   @Override
   public void playPause() {
-    isPlaying = false;
+    isPlaying = !isPlaying;
   }
 
   @Override
   public void scrollLeft() {
-    currentBeat--;
+    if (currentBeat > 0) {
+      playNoteAtCurrentBeat();
+      currentBeat--;
+
+    }
   }
 
   @Override
   public void scrollRight() {
-    currentBeat++;
+    if (currentBeat < piece.maxBeatNum()) {
+      playNoteAtCurrentBeat();
+      currentBeat++;
+
+
+    }
   }
 
   @Override
   public void jumpToEnd() {
     currentBeat = piece.maxBeatNum();
+    playNoteAtCurrentBeat();
   }
 
   @Override
   public void jumpToBeginning() {
     currentBeat = 0;
+    playNoteAtCurrentBeat();
   }
+
 }
