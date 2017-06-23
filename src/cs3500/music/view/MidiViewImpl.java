@@ -74,7 +74,7 @@ public class MidiViewImpl implements EnhancedView {
    * @throws IllegalStateException if the thread sleep is interrupted.
    */
   @Override
-  public void initialize() { //todo: use while loop
+  public void initialize() {
     isPlaying = true; //start playing on initialize, easy to change if needed.
 
 
@@ -83,7 +83,7 @@ public class MidiViewImpl implements EnhancedView {
       if (!notes.isEmpty()) { //if there are notes beginning at this time
         for (INote note : notes) { //For each note at this time, send 2 messages
 
-          long timeStamp = this.synth.getMicrosecondPosition();
+          long timeStamp = this.synth.getMicrosecondPosition() + 100;
           long duration = ((100 * (long) 600000000 * (long) note.getDuration()) /
               (long) piece.getTempo());
 
