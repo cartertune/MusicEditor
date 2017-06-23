@@ -21,6 +21,8 @@ public class MidiViewImpl implements EnhancedView {
   private MidiDevice synth; //Abstracted from Synthesizer to MidiDevice to enable us of mock Device.
   private Receiver receiver;
   private MusicOperations piece;
+  private int currentBeat = 0;
+  private boolean isPlaying = false;
 
   /**
    * Constructor. Takes the music piece to be played, and prepares the necessary boiler plate.
@@ -72,15 +74,18 @@ public class MidiViewImpl implements EnhancedView {
    * @throws IllegalStateException if the thread sleep is interrupted.
    */
   @Override
-  public void initialize() {
-    for (int time = 0; time < piece.maxBeatNum(); time++) {
-      ArrayList<INote> notes = piece.getNotesAt(time);
-      if (!notes.isEmpty()) { //if there are notes beginning at this time
-        for (INote note: notes) { //For each note at this time, send 2 messages
+  public void initialize() { //todo: use while loop
+    isPlaying = true; //start playing on initialize, easy to change if needed.
 
-          long timeStamp = (100 * (long)600000000 * (long)time) / (long)piece.getTempo();
-          long duration = ((100 * (long)600000000 * (long)note.getDuration()) /
-              (long)piece.getTempo());
+
+    while (isPlaying) {
+      ArrayList<INote> notes = piece.getNotesAt(currentBeat);
+      if (!notes.isEmpty()) { //if there are notes beginning at this time
+        for (INote note : notes) { //For each note at this time, send 2 messages
+
+          long timeStamp = this.synth.getMicrosecondPosition();
+          long duration = ((100 * (long) 600000000 * (long) note.getDuration()) /
+              (long) piece.getTempo());
 
           try {
             this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON,
@@ -108,43 +113,28 @@ public class MidiViewImpl implements EnhancedView {
     }
   }
 
-  /**
-   * If the music is not playing, it plays the music at current beat, else it pauses the song.
-   */
   @Override
   public void playPause() {
-
+    isPlaying = false;
   }
 
-  /**
-   * Scrolls the current beat to the left if possible.
-   */
   @Override
   public void scrollLeft() {
-
+    currentBeat--;
   }
 
-  /**
-   * Scrolls the current beat to the right if possible.
-   */
   @Override
   public void scrollRight() {
-
+    currentBeat++;
   }
 
-  /**
-   * Jumps ot the end of the song.
-   */
   @Override
   public void jumpToEnd() {
-
+    currentBeat = piece.maxBeatNum();
   }
 
-  /**
-   * Jumps to the beginning of the song.
-   */
   @Override
   public void jumpToBeginning() {
-
+    currentBeat = 0;
   }
 }
