@@ -17,14 +17,12 @@ public class NotesPanel extends JPanel {
   private final MusicOperations model;
   private int currentBeat;
 
-  private int panelHeight = 440;
+  private int panelHeight = 500;
   private int beatHeight = 22;
   private final int panelWidth = 1240;
   private final int notesLabelWidth = 85;
   private final int beatWidth = 33;
-  private final int maxBeats = 35;
-  private int minNoteVal;
-  private int maxNoteVal;
+
 
   /**
    * Initiates the NotePanel to represent the given model.
@@ -33,15 +31,15 @@ public class NotesPanel extends JPanel {
 
     this.model = model;
     this.currentBeat = 0;
-    this.minNoteVal = model.minNoteValue();
-    this.maxNoteVal = model.maxNoteValue();
-    panelHeight = (1 + maxNoteVal - minNoteVal) * beatHeight;
     setPreferredSize(new Dimension(panelWidth, panelHeight));
     setBackground(Color.white);
   }
 
   @Override
   protected void paintComponent(Graphics g) {
+
+    panelHeight = (1 + model.maxNoteValue() - model.minNoteValue()) * beatHeight;
+    this.setPreferredSize(new Dimension(panelWidth, panelHeight));
     super.paintComponent(g);
 
     g.setColor(Color.black);
@@ -55,24 +53,27 @@ public class NotesPanel extends JPanel {
 
   private void drawBeatTracker(Graphics g) {
     g.setColor(Color.red);
-    int xposn = notesLabelWidth + (currentBeat * beatWidth);
+    int xposn = notesLabelWidth + ((currentBeat % 36) * beatWidth);
     g.drawLine(xposn, 0, xposn, panelHeight);
   }
 
   private void drawNotes(Graphics g) {
 
-    for (int beat = 0; beat < maxBeats; beat++) {
+    int beatStart = (currentBeat / 36) * 36;
+    int beatEnd = beatStart + 36;
+    for (int beat = beatStart; beat < beatEnd; beat++) {
 
       ArrayList<INote> currNotes = model.getNotesAt(beat);
 
-      int xposnBlk = notesLabelWidth + (beat * beatWidth);
+      int xposnBlk = notesLabelWidth + ((beat % 36) * beatWidth);
       int xposnRed = xposnBlk + beatWidth;
 
       for (INote note : currNotes) {
         g.setColor(Color.black);
-        g.fillRect(xposnBlk, (maxNoteVal - note.value()) * beatHeight, beatWidth, beatHeight);
+        g.fillRect(xposnBlk, (model.maxNoteValue() - note.value()) * beatHeight,
+            beatWidth, beatHeight);
         g.setColor(Color.ORANGE);
-        g.fillRect(xposnRed, (maxNoteVal - note.value()) * beatHeight,
+        g.fillRect(xposnRed, (model.maxNoteValue() - note.value()) * beatHeight,
             (beatWidth * (note.getDuration() - 1)), beatHeight);
       }
     }
@@ -82,9 +83,9 @@ public class NotesPanel extends JPanel {
 
     ArrayList<String> noteLabels = new ArrayList<>();
 
-    for (int i = maxNoteVal; i >= minNoteVal; i--) {
+    for (int i = model.maxNoteValue(); i >= model.minNoteValue(); i--) {
 
-      String oct = String.valueOf((i / 12) + 1);
+      String oct = String.valueOf((i / 12) - 1);
       String pitch = pitchString(i % 12);
 
       noteLabels.add(pitch + oct);
@@ -131,7 +132,7 @@ public class NotesPanel extends JPanel {
 
   private void drawNoteLines(Graphics g) {
 
-    int numLines = maxNoteVal - minNoteVal + 1;
+    int numLines = model.maxNoteValue() - model.minNoteValue() + 1;
     g.setColor(Color.black);
     for (int y = beatHeight; y < beatHeight * numLines; y += beatHeight) {
 
@@ -141,7 +142,7 @@ public class NotesPanel extends JPanel {
 
   private void drawMeasureLines(Graphics g) {
 
-    for (int i = 0; i < maxBeats; i += 4) {
+    for (int i = 0; i < model.maxBeatNum(); i += 4) {
 
       g.drawLine(notesLabelWidth + i * beatWidth, 0,
           notesLabelWidth + i * beatWidth, panelHeight);

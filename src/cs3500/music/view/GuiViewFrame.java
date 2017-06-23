@@ -1,6 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.controller.Controller;
+import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicOperations;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -18,6 +19,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
   private MusicOperations model;
   private int currentBeat;
   private boolean isPlaying;
+  private JScrollPane noteScroll;
 
   /**
    * Creates new GuiView.
@@ -26,7 +28,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
    * and orients the appropriately so they are all in their correct positions.</p>
    *
    */
-  public GuiViewFrame(MusicOperations model)  {
+  GuiViewFrame(MusicOperations model)  {
     this.model = model;
 
 
@@ -37,7 +39,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
     drawBeatNumLabel();
     notesPanel = new NotesPanel(model);
     pianoPanel = new PianoPanel(model, notesPanel);
-    JScrollPane noteScroll = new JScrollPane(notesPanel);
+    noteScroll = new JScrollPane(notesPanel);
     noteScroll.setPreferredSize(new Dimension(1260, 440));
     setLayout(new BorderLayout());
     getContentPane().add(beatNumLabel,BorderLayout.NORTH);
@@ -64,17 +66,22 @@ public class GuiViewFrame extends JFrame implements IGUIView {
 
   private void drawBeatNumLabel() {
 
+    beatNumLabel.removeAll();
+    beatNumLabel.validate();
+    int minNote = (currentBeat / 36) * 36;
+    int maxNote = minNote + 32;
 
     beatNumLabel.setPreferredSize(new Dimension(1260, 60));
     beatNumLabel.setBackground(Color.lightGray);
     beatNumLabel.setVisible(true);
-    for (int i = 0; i < 35; i += 4) {
+    for (int i = minNote; i <= maxNote; i += 4) {
 
       beatNumLabel.setLayout(null);
       JLabel beatNum = new JLabel(String.valueOf(i));
-      beatNum.setBounds(85 + (i * 33), 30, 40, 40);
+      beatNum.setBounds(85 + ((i % 36) * 33), 30, 40, 40);
       beatNumLabel.add(beatNum);
     }
+    beatNumLabel.repaint();
   }
 
 
@@ -84,6 +91,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
       currentBeat++;
       pianoPanel.scrollRight();
       notesPanel.scrollRight();
+      drawBeatNumLabel();
     }
   }
 
@@ -93,6 +101,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
       currentBeat--;
       pianoPanel.scrollLeft();
       notesPanel.scrollLeft();
+      drawBeatNumLabel();
     }
   }
 
@@ -104,6 +113,7 @@ public class GuiViewFrame extends JFrame implements IGUIView {
     currentBeat = model.maxBeatNum();
     notesPanel.jumpToEnd();
     pianoPanel.jumpToEnd();
+    drawBeatNumLabel();
   }
 
   /**
@@ -114,12 +124,23 @@ public class GuiViewFrame extends JFrame implements IGUIView {
     currentBeat = 0;
     notesPanel.jumpToBeginning();
     pianoPanel.jumpToBeginning();
+    drawBeatNumLabel();
   }
 
   @Override
-  public void addNoteAt(MouseEvent me) {
+  public void addNoteAt(MouseEvent me, MusicController cont) {
 
-    int pitchValue = pianoPanel.noteDecifer(me.getPoint());
+    int x = me.getX();
+    int y = me.getY();
+
+    int octave = pianoPanel.octInterpreter(x, y);
+
+    String pitch = pianoPanel.pitchInterpreter(x, y);
+
+    cont.addNote(octave, currentBeat,pitch);
+    repaint();
+    noteScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
   }
 
   @Override

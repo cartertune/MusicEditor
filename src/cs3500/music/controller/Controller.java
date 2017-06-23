@@ -28,7 +28,7 @@ public class Controller implements MusicController {
     this.model = model;
 
     this.keyListener = new MusicKeyListener(view);
-    this.mouseListener = new MusicMouseListener(view);
+    this.mouseListener = new MusicMouseListener(view, this);
   }
 
   @Override

@@ -11,10 +11,14 @@ import java.util.Map;
  */
 public class MusicMouseListener implements MouseListener {
 
-  IGUIView view;
+  private final MusicController controller;
+  private IGUIView view;
 
-  MusicMouseListener(IGUIView view) {
+  MusicMouseListener(IGUIView view, MusicController controller)
+  {
+    this.controller = controller;
     this.view = view;
+    view.addMouseListener(this);
   }
 
   /**
@@ -31,7 +35,7 @@ public class MusicMouseListener implements MouseListener {
    */
   @Override
   public void mousePressed(MouseEvent e) {
-    view.addNoteAt(e);
+    view.addNoteAt(e, controller);
   }
 
   /**

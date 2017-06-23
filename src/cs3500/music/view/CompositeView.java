@@ -1,12 +1,13 @@
 package cs3500.music.view;
 
+import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicOperations;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Created by cartertune on 6/21/17.
+ * Combines a MidiView and a GUIView into a synchronized music editor.
  */
 public class CompositeView implements IGUIView {
 
@@ -17,7 +18,7 @@ public class CompositeView implements IGUIView {
   private int currentBeat;
   private boolean isPlaying;
 
-  public CompositeView(MusicOperations model) {
+  CompositeView(MusicOperations model) {
     this.model = model;
     this.midi = new MidiViewImpl(model);
     this.gui = new GuiViewFrame(model);
@@ -31,8 +32,8 @@ public class CompositeView implements IGUIView {
   @Override
   public void initialize() {
 
-    midi.initialize();
     gui.initialize();
+    midi.initialize();
   }
 
   // TODO: 6/21/17 This will be simple but take time to write.
@@ -93,9 +94,9 @@ public class CompositeView implements IGUIView {
    * @param me the mouse event to use to find the key pressed.
    */
   @Override
-  public void addNoteAt(MouseEvent me) {
+  public void addNoteAt(MouseEvent me, MusicController controller){
 
-    gui.addNoteAt(me);
+    gui.addNoteAt(me, controller);
   }
 
   /**

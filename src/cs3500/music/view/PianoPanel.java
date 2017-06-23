@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -42,7 +43,6 @@ public class PianoPanel extends JPanel {
       drawKeys(oct, g);
     }
   }
-
 
 
   private void drawKeys(int oct, Graphics g) {
@@ -116,8 +116,63 @@ public class PianoPanel extends JPanel {
     repaint();
   }
 
-  // TODO: 6/21/17
-  public int noteDecifer(Point point) {
-    return 0;
+  int octInterpreter(int x, int y) {
+
+    int keyNum = x / keyWidth;
+
+    return (keyNum / 7) + 1;
+  }
+
+  String pitchInterpreter(int x, int y) {
+
+    int keyNum = (x / keyWidth) % 7;
+
+    switch (keyNum) {
+
+      case 0:
+        if (isSharpKey(x, y)) {
+          return "CSHARP";
+        } else {
+          return "C";
+        }
+      case 1:
+        if (isSharpKey(x, y)) {
+          return "DSHARP";
+        } else {
+          return "D";
+        }
+      case 2:
+        return "E";
+      case 3:
+        if (isSharpKey(x, y)) {
+          return "FSHARP";
+        } else {
+          return "F";
+        }
+      case 4:
+        if (isSharpKey(x, y)) {
+          return "GSHARP";
+        } else {
+          return "G";
+        }
+      case 5:
+        if (isSharpKey(x, y)) {
+          return "ASHARP";
+        } else {
+          return "A";
+        }
+      case 6:
+        return "B";
+      default:
+        return "could not identify piano key.";
+
+    }
+  }
+
+  private boolean isSharpKey(int x, int y) {
+
+    int xWithinKey = x % 7;
+
+    return (y <= height / 2) && (xWithinKey > 3);
   }
 }
