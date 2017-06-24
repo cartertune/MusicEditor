@@ -43,13 +43,22 @@ public class MockMusicKeyListener implements KeyListener {
         keyCMDs.put(32, () -> view.playPause());\]
         */
 
-
-        keyCMDs.put(39, () -> log.append("Controller: Scroll Right \n"));
-        keyCMDs.put(37, () -> log.append("Key Listener: Scroll Left \n"));
-        keyCMDs.put(35, () -> log.append("Jump to Beginning \n"));
-        keyCMDs.put(36, () -> log.append("Jump to End \n"));
-        keyCMDs.put(32, () -> log.append("Play / Pause \n"));
+      keyCMDs.put(39, () -> log.append("  Scroll Right\n"));
+      keyCMDs.put(37, () -> log.append("  Scroll Left\n"));
+      keyCMDs.put(35, () -> log.append("  Jump to Beginning\n"));
+      keyCMDs.put(36, () -> log.append("  Jump to End\n"));
+      keyCMDs.put(32, () -> log.append("  Play / Pause\n"));
     }
+
+  /**
+   * Returns the Key Listener's log.
+   *
+   * @return the log.
+   */
+  @Override
+  public String toString() {
+    return log.toString();
+  }
 
     /**
      * not used.
@@ -79,15 +88,5 @@ public class MockMusicKeyListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         //do nothing.
-    }
-
-
-    /**
-     * Returns the Key Listener's log.
-     * @return the log.
-     */
-    @Override
-    public String toString() {
-        return log.toString();
     }
 }
