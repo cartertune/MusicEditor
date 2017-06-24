@@ -8,19 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Mock for music key listener. todo: detail log structure.
+ * Mock for music key listener.
  */
 public class MockMusicKeyListener implements KeyListener {
 
     private Map<Integer, Runnable> keyCMDs; //contains commands
-    private IGUIView view; //todo: delete,view not needed
     private StringBuilder log;
 
     MockMusicKeyListener(IGUIView view) {
         this.keyCMDs = new HashMap<>();
         this.log = new StringBuilder();
         addKeyCommands();
-        view.addKeyListener(this);
     }
 
     /**
@@ -29,12 +27,12 @@ public class MockMusicKeyListener implements KeyListener {
      *
      * Logs Following Commands:
      * press left key to move the beat num left in the view.
-     * press right key to move the beat num right in the view. todo:update with new commands
+     * press right key to move the beat num right in the view.
      */
-    private void addKeyCommands() { // todo: instead of calling methods, log method calls.
+    private void addKeyCommands() {
         this.keyCMDs = new HashMap<>();
 
-        //old commands todo: delete
+      //old commands
         /*
         keyCMDs.put(39, () -> view.scrollRight());// replace with log.append("message"); This is a runnable.
         keyCMDs.put(37, () -> view.scrollLeft());

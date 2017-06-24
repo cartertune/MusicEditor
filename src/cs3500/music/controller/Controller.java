@@ -40,7 +40,7 @@ public class Controller implements MusicController {
     this.view = view;
     this.model = model;
     this.keyListener = keyListener;
-    this.mouseListener = new MockMusicMouseListener(view, this); //todo: is there any point in mocking this?
+    this.mouseListener = new MockMusicMouseListener(view, this);
   }
 
 
