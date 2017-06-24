@@ -30,7 +30,7 @@ public class ControllerTest {
         controller.addNote(4, 3,"C");
 
 
-        mockListener.keyPressed(new KeyEvent());
+        //mockListener.keyPressed(new KeyEvent());
 
         System.out.print(controller.toString());
 
@@ -48,9 +48,9 @@ public class ControllerTest {
         }
 
 
-        public MockKeyEvent(int id) {
-            super(new Component(), 0 , 0, 0, keyCode);
-        }
+//        public MockKeyEvent(int id) {
+//            super(new Component(), 0 , 0, 0, keyCode);
+//        }
     }
 
 }

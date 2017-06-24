@@ -42,8 +42,8 @@ public class MusicKeyListener implements KeyListener {
     this.keyCMDs = new HashMap<>();
     keyCMDs.put(39, () -> view.scrollRight());
     keyCMDs.put(37, () -> view.scrollLeft());
-    keyCMDs.put(35, () -> view.jumpToBeginning());
-    keyCMDs.put(36, () -> view.jumpToEnd());
+    keyCMDs.put(36, () -> view.jumpToBeginning());
+    keyCMDs.put(35, () -> view.jumpToEnd());
     keyCMDs.put(32, () -> view.playPause());
   }
 
