@@ -7,7 +7,11 @@ import cs3500.music.model.MusicOperations;
  */
 public class ViewFactory {
   /**
-   * Creates of the specified class
+   * Creates of the specified class:
+   * "console" for console view.
+   * "gui" for gui view.
+   * "midi" for just song.
+   * "composite" for combined view.
    *
    * @param type the type of vie to return
    * @return a new view of the specified type

@@ -10,6 +10,10 @@ import java.io.FileReader;
  */
 public class ConsoleViewTest {
 
+  /**
+   * tests initialize of consoleView.
+   * @throws Exception if unrenderable.
+   */
   public void initializeTest() throws Exception {
     MusicOperations model = MusicReader.parseFile(new FileReader("mystery-1.txt"),
         new CompBuilder());

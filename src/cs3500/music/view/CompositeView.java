@@ -25,6 +25,7 @@ public class CompositeView implements IGUIView {
   /**
    * Creates a composite view for given model, and sets a timer that advances song as long as it is
    * not paused.
+   *
    * @param model model represented by view.
    */
   CompositeView(MusicOperations model) {
@@ -52,7 +53,6 @@ public class CompositeView implements IGUIView {
 
   @Override
   public void playPause() {
-
 
     isPlaying = !isPlaying;
     midi.playPause();
@@ -111,7 +111,7 @@ public class CompositeView implements IGUIView {
    * @param me the mouse event to use to find the key pressed.
    */
   @Override
-  public void addNoteAt(MouseEvent me, MusicController controller){
+  public void addNoteAt(MouseEvent me, MusicController controller) {
 
     gui.addNoteAt(me, controller);
   }
@@ -137,10 +137,7 @@ public class CompositeView implements IGUIView {
    */
   public class MusicTimer extends TimerTask {
 
-    /**
-     * Creates a music timer.
-     */
-    MusicTimer() {}
+
     /**
      * If the view is not paused, it advances to the next beat at each tick.
      */

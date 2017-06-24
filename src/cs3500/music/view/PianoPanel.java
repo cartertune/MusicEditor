@@ -5,8 +5,6 @@ import cs3500.music.model.MusicOperations;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 

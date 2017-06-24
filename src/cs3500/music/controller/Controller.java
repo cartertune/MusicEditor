@@ -34,19 +34,21 @@ public class Controller implements MusicController {
 
   /**
    * Convenience constructor. Used for mocking.
-   * @param keyListener
+   *
+   * @param keyListener keyListener to use.
    */
-  public Controller (IGUIView view, MusicOperations model, KeyListener keyListener) {
+  public Controller(IGUIView view, MusicOperations model, KeyListener keyListener) {
     this.view = view;
     this.model = model;
     this.keyListener = keyListener;
-    this.mouseListener = new MockMusicMouseListener(view, this); //todo: is there any point in mocking this?
+    this.mouseListener = new MockMusicMouseListener(view,
+        this); //todo: is there any point in mocking this?
   }
 
 
   @Override
   public void addNote(int octave, int beatNum, String pitch) {
-    model.addNote(1, octave,beatNum, pitch);
+    model.addNote(1, octave, beatNum, pitch);
   }
 
   @Override

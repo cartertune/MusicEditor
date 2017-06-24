@@ -11,48 +11,47 @@ import java.awt.event.MouseListener;
 public class MockMusicMouseListener implements MouseListener {
 
 
-    private final MusicController controller;
-    private IGUIView view;
-    private StringBuilder log;
+  private final MusicController controller;
+  private IGUIView view;
+  private StringBuilder log;
 
-    MockMusicMouseListener(IGUIView view, MusicController controller)
-    {
-        this.controller = controller;
-        this.view = view;
-        this.log = new StringBuilder();
-        view.addMouseListener(this);
-    }
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //not used
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //normally: view.addNoteAt(e, controller);
-        log.append("MouseListener: note added\n");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        //not used
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //not used
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //not used
-    }
+  MockMusicMouseListener(IGUIView view, MusicController controller) {
+    this.controller = controller;
+    this.view = view;
+    this.log = new StringBuilder();
+    view.addMouseListener(this);
+  }
 
 
-    @Override
-    public String toString() {
-        return log.toString();
-    }
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    //not used
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+    //normally: view.addNoteAt(e, controller);
+    log.append("MouseListener: note added\n");
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    //not used
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+    //not used
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+    //not used
+  }
+
+
+  @Override
+  public String toString() {
+    return log.toString();
+  }
 }

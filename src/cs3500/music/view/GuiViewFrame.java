@@ -2,10 +2,17 @@ package cs3500.music.view;
 
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicOperations;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
 
 /**
  * A frame to hold the various Panels that are apart of the GUI view.
