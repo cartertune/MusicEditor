@@ -17,40 +17,34 @@ import static org.junit.Assert.*;
  * Tests for controller.
  */
 public class ControllerTest {
-
     @Test
-    public void mockTest() {
+    public void jumpToEndTest() {
         MusicOperations model = new MusicModel();
         ViewFactory factory = new ViewFactory();
         IGUIView view = (IGUIView) factory.makeView(model, "gui");
-
+    
         KeyListener mockListener = new MockMusicKeyListener(view);
         Controller controller = new Controller(view, model, mockListener);
 
         controller.addNote(4, 3,"C");
 
 
-        //mockListener.keyPressed(new KeyEvent());
+        mockListener.keyPressed(new MockKeyEvent(36));
 
-        System.out.print(controller.toString());
-
-        //assertEquals();
+        assertEquals("Key Listener Log: \n"
+            + "Jump to End \n"
+            + "Mouse Listener Log: \n", controller.toString());
     }
 
 
     /**
-     * For constructor convenience
+     * For convenient construction of Key Events in tests.
+     *
      */
     private static class MockKeyEvent extends KeyEvent{
-
-        public MockKeyEvent(Component source, int id, long when, int modifiers, int keyCode, char keyChar, int keyLocation) {
-            super(source, id, when, modifiers, keyCode, keyChar, keyLocation);
+        public MockKeyEvent(int keyCode) {
+            super(new Canvas(), 0 , 0, 0, keyCode);
         }
-
-
-//        public MockKeyEvent(int id) {
-//            super(new Component(), 0 , 0, 0, keyCode);
-//        }
     }
 
 }
