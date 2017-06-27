@@ -4,6 +4,7 @@ package cs3500.music.model;
 import cs3500.music.util.CompositionBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A class to represent the model of the MusicEditor.
@@ -246,5 +247,15 @@ public class MusicModel implements MusicOperations {
   @Override
   public boolean hasRepeatAt(int beat) {
     return piece.hasRepeatAt(beat);
+  }
+
+  @Override
+  public List<BeginRepeat> getBeginRepeats() {
+    return piece.getBeginRepeats();
+  }
+
+  @Override
+  public Map<Integer, Repeat> getRepeats() {
+    return piece.getRepeats();
   }
 }

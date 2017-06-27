@@ -1,8 +1,10 @@
 package cs3500.music.view;
 
+import cs3500.music.model.BeginRepeat;
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
 import cs3500.music.model.Repeat;
+import cs3500.music.model.RepeatType;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -53,6 +55,8 @@ public class NotesPanel extends JPanel {
     drawNoteLabels(g);
     drawNotes(g);
     drawBeatTracker(g);
+    drawRepeats(g);
+    drawBeginRepeats(g);
   }
 
   private void drawBeatTracker(Graphics g) {
@@ -150,6 +154,43 @@ public class NotesPanel extends JPanel {
 
       g.drawLine(notesLabelWidth + i * beatWidth, 0,
           notesLabelWidth + i * beatWidth, panelHeight);
+    }
+  }
+
+  private void drawBeginRepeats(Graphics g) {
+
+    int beatStart = (currentBeat / 36) * 36;
+    int beatEnd = beatStart + 36;
+
+    for (BeginRepeat r: model.getBeginRepeats()) {
+      if (r.getBeat() < beatEnd && r.getBeat() > beatStart) {
+        g.setColor(Color.BLUE);
+        int xposn = (notesLabelWidth + (r.getBeat() % 36) * beatWidth);
+        g.drawLine(xposn, 0,
+            xposn, panelHeight);
+      }
+    }
+  }
+
+  private void drawRepeats(Graphics g) {
+
+
+    int beatStart = (currentBeat / 36) * 36;
+    int beatEnd = beatStart + 36;
+
+    for (Repeat r: model.getRepeats().values()) {
+      if (r.getBeat() < beatEnd && r.getBeat() > beatStart) {
+
+        if (r.type() == RepeatType.EndingVariation) {
+          g.setColor(Color.cyan);
+        } else {
+          g.setColor(Color.GREEN);
+        }
+
+        int xposn = (notesLabelWidth + (r.getBeat() % 36) * beatWidth);
+        g.drawLine(xposn, 0,
+            xposn, panelHeight);
+      }
     }
   }
 

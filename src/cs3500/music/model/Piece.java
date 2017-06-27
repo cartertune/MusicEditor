@@ -378,4 +378,12 @@ public class Piece {
 
     return repeats.get(beat);
   }
+
+  List<BeginRepeat> getBeginRepeats() {
+    return beginRepeats;
+  }
+
+  public Map<Integer, Repeat> getRepeats() {
+    return repeats;
+  }
 }

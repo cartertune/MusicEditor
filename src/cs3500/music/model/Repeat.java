@@ -20,5 +20,8 @@ public interface Repeat {
    */
   RepeatType type();
 
+  /**
+   * Lets the repeatNotation know it has been passed.
+   */
   void setToPassed();
 }

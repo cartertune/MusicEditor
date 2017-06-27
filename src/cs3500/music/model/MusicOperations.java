@@ -2,6 +2,7 @@ package cs3500.music.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An Interface that MusicEditor models must apply to.
@@ -128,4 +129,8 @@ public interface MusicOperations {
   Repeat getRepeatAt(int beat);
 
   boolean hasRepeatAt(int beat);
+
+  List<BeginRepeat> getBeginRepeats();
+
+  Map<Integer, Repeat> getRepeats();
 }
