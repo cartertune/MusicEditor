@@ -3,6 +3,8 @@ package cs3500.music.view;
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
 
+import cs3500.music.model.Repeat;
+import java.util.List;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
 
@@ -22,6 +24,7 @@ public class MidiViewImpl implements EnhancedView {
   private Receiver receiver;
   private MusicOperations piece;
   private int currentBeat = 0;
+  private int nextBeat = 1;
   private boolean isPlaying = false;
 
   /**
@@ -118,7 +121,7 @@ public class MidiViewImpl implements EnhancedView {
     if (currentBeat > 0) {
       playNoteAtCurrentBeat();
       currentBeat--;
-
+      nextBeat--;
     }
   }
 
@@ -126,21 +129,33 @@ public class MidiViewImpl implements EnhancedView {
   public void scrollRight() {
     if (currentBeat < piece.maxBeatNum()) {
       playNoteAtCurrentBeat();
-      currentBeat++;
-
-
+      setCurrentAndNextBeat(nextBeat);
     }
+  }
+
+  private void setCurrentAndNextBeat(int beat) {
+    this.currentBeat = beat;
+
+    if (piece.hasRepeatAt(beat)) {
+      System.out.println("workingish.");
+      nextBeat = piece.getRepeatAt(beat).goTo();
+    } else {
+      nextBeat = currentBeat + 1;
+    }
+
   }
 
   @Override
   public void jumpToEnd() {
     currentBeat = piece.maxBeatNum();
+    nextBeat = currentBeat + 1;
     playNoteAtCurrentBeat();
   }
 
   @Override
   public void jumpToBeginning() {
     currentBeat = 0;
+    nextBeat = 1;
     playNoteAtCurrentBeat();
   }
 

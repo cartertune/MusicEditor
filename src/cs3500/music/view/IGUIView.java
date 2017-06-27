@@ -13,10 +13,19 @@ public interface IGUIView extends EnhancedView {
 
 
   /**
-   * Adds a quarter note at current beat with a default volume, and instrument at current beat.
+   * Adds a note at current beat with a default volume, and instrument with a duration according
+   * to how long the mouse was held.
    * @param me the mouse event to use to find the key pressed.
+   * @param controller the controller to add the note.
+   * @param holdTime the time that the mouse was held in microseconds.
    */
-  void addNoteAt(MouseEvent me, MusicController controller);
+  void addNoteAt(MouseEvent me, MusicController controller, double holdTime);
+
+  /**
+   * Gets the currentBeat of the song.
+   * @return the currentBeat.
+   */
+  int getCurrentBeat();
 
   /**
    * Adds the given keyListener to the view.
@@ -29,4 +38,14 @@ public interface IGUIView extends EnhancedView {
    * @param ml the mouse listener to be added.
    */
   void addMouseListener(MouseListener ml);
+
+  /**
+   * Increases the tempo of the model represented by 10 ms per beat.
+   */
+  void increaseTempo();
+
+  /**
+   * Decreases the tempo of the model represented by 10 ms per beat.
+   */
+  void decreaseTempo();
 }

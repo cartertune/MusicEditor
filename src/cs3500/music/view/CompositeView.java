@@ -3,9 +3,11 @@ package cs3500.music.view;
 import cs3500.music.controller.Controller;
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicOperations;
+import cs3500.music.model.Repeat;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,7 +22,9 @@ public class CompositeView implements IGUIView {
   private final GuiViewFrame gui;
 
   private int currentBeat;
+  private int nextBeat;
   private boolean isPlaying;
+  private Timer timer = new Timer();
 
   /**
    * Creates a composite view for given model, and sets a timer that advances song as long as it is
@@ -36,7 +40,6 @@ public class CompositeView implements IGUIView {
     this.isPlaying = false;
 
     long tempoInMilliSeconds = model.getTempo() / 1000;
-    Timer timer = new Timer();
     timer.scheduleAtFixedRate(new MusicTimer(), 0, tempoInMilliSeconds);
     new Controller(this, model);
   }
@@ -66,6 +69,7 @@ public class CompositeView implements IGUIView {
   public void scrollLeft() {
     if (currentBeat > 0) {
       currentBeat--;
+      nextBeat--;
       midi.scrollLeft();
       gui.scrollLeft();
     }
@@ -78,9 +82,10 @@ public class CompositeView implements IGUIView {
   public void scrollRight() {
 
     if (currentBeat < model.maxBeatNum()) {
-      currentBeat++;
       midi.scrollRight();
       gui.scrollRight();
+      setCurrentAndNextBeat(nextBeat);
+
     }
   }
 
@@ -91,6 +96,7 @@ public class CompositeView implements IGUIView {
   public void jumpToEnd() {
 
     currentBeat = model.maxBeatNum();
+    nextBeat = currentBeat + 1;
     midi.jumpToEnd();
     gui.jumpToEnd();
   }
@@ -101,6 +107,7 @@ public class CompositeView implements IGUIView {
   @Override
   public void jumpToBeginning() {
     currentBeat = 0;
+    nextBeat =1;
     midi.jumpToBeginning();
     gui.jumpToBeginning();
   }
@@ -111,9 +118,15 @@ public class CompositeView implements IGUIView {
    * @param me the mouse event to use to find the key pressed.
    */
   @Override
-  public void addNoteAt(MouseEvent me, MusicController controller) {
+  public void addNoteAt(MouseEvent me, MusicController controller, double holdTime) {
 
-    gui.addNoteAt(me, controller);
+    gui.addNoteAt(me, controller, holdTime);
+    scrollRight();
+  }
+
+  @Override
+  public int getCurrentBeat() {
+    return currentBeat;
   }
 
   /**
@@ -130,6 +143,47 @@ public class CompositeView implements IGUIView {
   @Override
   public void addMouseListener(MouseListener ml) {
     gui.addMouseListener(ml);
+  }
+
+  @Override
+  public void increaseTempo() {
+    int tempo = Math.max(1000, (model.getTempo() - 10000));
+    this.model.setTempo(tempo);
+    long tempoInMilliSeconds = tempo / 1000;
+    timer.cancel();
+    timer = new Timer();
+    timer.scheduleAtFixedRate(new MusicTimer(), 0, tempoInMilliSeconds);
+
+
+  }
+
+  @Override
+  public void decreaseTempo() {
+
+    int tempo = model.getTempo() + 10000;
+    this.model.setTempo(tempo);
+    long tempoInMilliSeconds = tempo / 1000;
+    timer.cancel();
+    timer = new Timer();
+    timer.scheduleAtFixedRate(new MusicTimer(), 0, tempoInMilliSeconds);
+  }
+
+  /**
+   * Sets the current and next beat to the given parameters.
+   *
+   * @param beat the beat of the currentBeat.
+   */
+  private void setCurrentAndNextBeat(int beat) {
+    this.currentBeat = beat;
+
+    if (model.hasRepeatAt(beat)) {
+      nextBeat = model.getRepeatAt(beat).goTo();
+      model.getRepeatAt(beat).setToPassed();
+    } else {
+      nextBeat = currentBeat + 1;
+    }
+
+    System.out.println(currentBeat + "  " + nextBeat);
   }
 
   /**

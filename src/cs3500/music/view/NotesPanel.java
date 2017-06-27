@@ -2,10 +2,12 @@ package cs3500.music.view;
 
 import cs3500.music.model.INote;
 import cs3500.music.model.MusicOperations;
+import cs3500.music.model.Repeat;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -16,6 +18,7 @@ public class NotesPanel extends JPanel {
 
   private final MusicOperations model;
   private int currentBeat;
+  private int nextBeat;
 
   private int panelHeight = 500;
   private int beatHeight = 22;
@@ -31,6 +34,7 @@ public class NotesPanel extends JPanel {
 
     this.model = model;
     this.currentBeat = 0;
+    this.nextBeat = 1;
     setPreferredSize(new Dimension(panelWidth, panelHeight));
     setBackground(Color.white);
   }
@@ -150,22 +154,35 @@ public class NotesPanel extends JPanel {
   }
 
   void scrollRight() {
-    currentBeat++;
+    setCurrentAndNextBeat(nextBeat);
     repaint();
+  }
+
+  private void setCurrentAndNextBeat(int beat) {
+    this.currentBeat = beat;
+
+    if (model.hasRepeatAt(beat)) {
+      nextBeat = model.getRepeatAt(beat).goTo();
+    } else {
+      nextBeat = currentBeat + 1;
+    }
   }
 
   void scrollLeft() {
     currentBeat--;
+    nextBeat--;
     repaint();
   }
 
   void jumpToEnd() {
     currentBeat = model.maxBeatNum();
+    nextBeat = currentBeat + 1;
     repaint();
   }
 
   void jumpToBeginning() {
     currentBeat = 0;
+    nextBeat = 1;
     repaint();
   }
 }

@@ -11,13 +11,11 @@ import java.awt.event.MouseListener;
 public class MockMusicMouseListener implements MouseListener {
 
 
-  private final MusicController controller;
-  private IGUIView view;
+
   private StringBuilder log;
 
   MockMusicMouseListener(IGUIView view, MusicController controller) {
-    this.controller = controller;
-    this.view = view;
+
     this.log = new StringBuilder();
     view.addMouseListener(this);
   }
@@ -30,7 +28,6 @@ public class MockMusicMouseListener implements MouseListener {
 
   @Override
   public void mousePressed(MouseEvent e) {
-    //normally: view.addNoteAt(e, controller);
     log.append("MouseListener: note added\n");
   }
 

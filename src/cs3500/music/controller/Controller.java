@@ -27,7 +27,7 @@ public class Controller implements MusicController {
     this.view = view;
     this.model = model;
 
-    this.keyListener = new MusicKeyListener(view);
+    this.keyListener = new MusicKeyListener(view, model);
     this.mouseListener = new MusicMouseListener(view, this);
   }
 
@@ -42,20 +42,20 @@ public class Controller implements MusicController {
     this.model = model;
     this.keyListener = keyListener;
     this.mouseListener = new MockMusicMouseListener(view,
-        this); //todo: is there any point in mocking this?
+        this);
   }
 
 
   @Override
-  public void addNote(int octave, int beatNum, String pitch) {
-    model.addNote(1, octave, beatNum, pitch);
+  public void addNote(int duration, int octave, int beatNum, String pitch) {
+    model.addNote(duration, octave, beatNum - duration, pitch);
   }
 
   @Override
   public String toString() {
     StringBuilder out = new StringBuilder();
-    out.append("Key Listener Log: \n" + this.keyListener.toString());
-    out.append("Mouse Listener Log: \n" + this.mouseListener.toString());
+    out.append("Key Listener Log: \n").append(this.keyListener.toString());
+    out.append("Mouse Listener Log: \n").append(this.mouseListener.toString());
 
     return out.toString();
   }

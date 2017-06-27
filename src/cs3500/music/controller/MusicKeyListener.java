@@ -1,5 +1,8 @@
 package cs3500.music.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
+import cs3500.music.model.MusicOperations;
+import cs3500.music.model.RepeatType;
 import cs3500.music.view.IGUIView;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,15 +19,17 @@ public class MusicKeyListener implements KeyListener {
 
   private Map<Integer, Runnable> keyCMDs;
   private IGUIView view;
+  private final MusicOperations model;
 
   /**
    * Creates this MusicKeyListener and adds it to given view.
    * @param view view to add listener to.
    */
-  MusicKeyListener(IGUIView view) {
+  MusicKeyListener(IGUIView view, MusicOperations model) {
 
     this.view = view;
     this.keyCMDs = new HashMap<>();
+    this.model = model;
     addKeyCommands();
     view.addKeyListener(this);
   }
@@ -36,7 +41,8 @@ public class MusicKeyListener implements KeyListener {
    * press home key to jump to the beginning of the song.
    * press the end key to jump to the end of the song.
    * press the SPACE bar to play or pause the song.
-   *
+   * press the down key to decrease the tempo of the song.
+   * press the up key to increase the tempo of the song.
    */
   private void addKeyCommands() {
     this.keyCMDs = new HashMap<>();
@@ -45,6 +51,11 @@ public class MusicKeyListener implements KeyListener {
     keyCMDs.put(36, () -> view.jumpToBeginning());
     keyCMDs.put(35, () -> view.jumpToEnd());
     keyCMDs.put(32, () -> view.playPause());
+    keyCMDs.put(40, () -> view.decreaseTempo());
+    keyCMDs.put(38, () -> view.increaseTempo());
+    keyCMDs.put(66, () -> model.addRepeat(view.getCurrentBeat(), RepeatType.StartRepeat));
+    keyCMDs.put(82, () -> model.addRepeat(view.getCurrentBeat(), RepeatType.EndRepeat));
+    keyCMDs.put(69, () -> model.addRepeat(view.getCurrentBeat(), RepeatType.EndingVariation));
   }
 
   /**

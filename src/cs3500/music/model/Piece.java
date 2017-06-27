@@ -1,11 +1,15 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.function.BinaryOperator;
+import javax.swing.ListModel;
 
 /**
  * Represents a song in the music editor.
@@ -13,20 +17,30 @@ import java.util.function.BinaryOperator;
 public class Piece {
 
   private Map<Integer, Notations> notes;
+  private Map<Integer, Repeat> repeats;
+  private List<BeginRepeat> beginRepeats;
+
+  private boolean hasEnding = false;
 
   /**
    * Creates an  empty song.
    */
   public Piece() {
     this.notes = new HashMap<>();
+    this.beginRepeats = new ArrayList<>();
+    this.repeats = new HashMap<>();
+
   }
 
   public Piece(Map<Integer, Notations> notes) {
     this.notes = notes;
+    this.beginRepeats = new ArrayList<>();
+    this.repeats = new HashMap<>();
   }
 
   /**
    * Adds a note to the piece at a given beat number.
+   *
    * @param note note to be added.
    * @param beatNum beat number to add the note at.
    */
@@ -46,7 +60,61 @@ public class Piece {
   }
 
   /**
+   * Adds given repeat at given beat.
+   *
+   * @param beatNum beat number to add repeat to.
+   * @param repeatType type of repeat to add.
+   */
+  void addRepeat(int beatNum, RepeatType repeatType) {
+
+    Repeat repeat = createRepeat(beatNum, repeatType);
+
+    if (beatNum < 0) {
+      throw new IllegalArgumentException("Beat number cannot be less than zero");
+    }
+
+    if (repeat.type() == RepeatType.StartRepeat) {
+      beginRepeats.add((BeginRepeat) repeat);
+      System.out.println("Beginner added at" + beatNum);
+    } else {
+      if (repeat.type() == RepeatType.EndingVariation) {
+        hasEnding = true;
+      }
+      repeats.put(beatNum, repeat);
+      System.out.println("ender added at" + beatNum);
+    }
+  }
+
+  private Repeat createRepeat(int beatNum, RepeatType repeatType) {
+
+    switch (repeatType) {
+      case StartRepeat:
+        return new BeginRepeat(beatNum);
+
+      case EndRepeat:
+        return new EndRepeat(beatNum, lastStartBeat());
+
+      case EndingVariation:
+        return new Ending(!hasEnding, beatNum, lastStartBeat());
+
+      default:
+        throw new IllegalArgumentException("Incorrect RepeatType given.");
+    }
+  }
+
+  private int lastStartBeat() {
+
+    if (beginRepeats.isEmpty()) {
+      return 0;
+    } else {
+
+      return Collections.max(beginRepeats, Comparator.comparingInt(BeginRepeat::getBeat)).getBeat();
+    }
+  }
+
+  /**
    * Removes a note from the song.
+   *
    * @param beatNum beat number to remove note from.
    * @param pitch pitch of the note.
    * @param octave octave of the note.
@@ -64,6 +132,7 @@ public class Piece {
 
   /**
    * Edits the given note according to editor.
+   *
    * @param editor contains directions to edit note.
    * @param beatNum the beat number the note is at.
    * @param pitch the pitch of the note.
@@ -78,18 +147,20 @@ public class Piece {
 
   /**
    * Merges the given piece with the one in the model.
+   *
    * @param piece piece to merge.
    */
   void mergePiece(Piece piece) {
 
     Map<Integer, Notations> mapToMerge = piece.getNotes();
-    BinaryOperator<Notations> combiner = (notations, notations2) -> notations.combine(notations2);
+    BinaryOperator<Notations> combiner = Notations::combine;
     mapToMerge.forEach((beat, not) ->
-        notes.merge(beat, not, combiner::apply));
+        notes.merge(beat, not, combiner));
   }
 
   /**
    * Adds the given piece at the end of the  current one.
+   *
    * @param piece piece to be added.
    */
   void addPiece(Piece piece) {
@@ -103,6 +174,7 @@ public class Piece {
 
   /**
    * Gets the song in MIDI notation as a String.
+   *
    * @return the string.
    */
   String getMIDINotation() {
@@ -120,6 +192,7 @@ public class Piece {
 
   /**
    * Gets all the notes in String form.
+   *
    * @return the notes as a String.
    */
   private String printNotes() {
@@ -147,22 +220,24 @@ public class Piece {
 
   /**
    * Creates the column header string.
+   *
    * @param i the column number.
    * @param width the width of the column.
    * @return the column header.
    */
   private String columnHeader(int i, int width) {
 
-    String columnHeader = String.valueOf(i);
+    StringBuilder columnHeader = new StringBuilder(String.valueOf(i));
 
     while (columnHeader.length() < width) {
-      columnHeader = " " + columnHeader;
+      columnHeader.insert(0, " ");
     }
-    return columnHeader;
+    return columnHeader.toString();
   }
 
   /**
    * Creates a string for the top line from the lowest note in the song to the highest.
+   *
    * @return the string
    */
   private String topLine() {
@@ -190,9 +265,8 @@ public class Piece {
 
   /**
    * Gets the last beat of the current piece.
+   *
    * @return the last beat of the current piece plus a measure (4 beats)
-   *
-   *
    */
   int lastBeat() {
 
@@ -246,15 +320,16 @@ public class Piece {
 
   /**
    * Takes the notes in the song and turns them all in to notes at each beat.
+   *
    * @return a map of the notes at each beat number.
    */
   private HashMap<Integer, BeatNotations> getBeat() {
 
     HashMap<Integer, BeatNotations> beat = new HashMap<>();
 
-    for (int i: notes.keySet()) {
+    for (int i : notes.keySet()) {
       Notations n = notes.get(i);
-      for (INote note: n.notes) {
+      for (INote note : n.notes) {
         addNoteToBeat(i, note, beat);
       }
     }
@@ -263,6 +338,7 @@ public class Piece {
 
   /**
    * Adds a note to the beat map.
+   *
    * @param startBeat the beat the note starts at.
    * @param note the note being added.
    * @param beat the current map of beats.
@@ -291,5 +367,15 @@ public class Piece {
       return notes.get(beatNum).getNotes();
     }
     return new ArrayList<>();
+  }
+
+  boolean hasRepeatAt(int beat) {
+
+    return repeats.containsKey(beat);
+  }
+
+  Repeat getRepeatAt(int beat) {
+
+    return repeats.get(beat);
   }
 }

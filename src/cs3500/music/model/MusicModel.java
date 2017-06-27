@@ -3,6 +3,7 @@ package cs3500.music.model;
 
 import cs3500.music.util.CompositionBuilder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class to represent the model of the MusicEditor.
@@ -95,6 +96,12 @@ public class MusicModel implements MusicOperations {
 
     Note note = new Note(new Sound(p, octave), duration);
     piece.addNote(note, beatNum);
+  }
+
+  @Override
+  public void addRepeat(int beatNum, RepeatType  repeatType) {
+
+    piece.addRepeat(beatNum, repeatType);
   }
 
   @Override
@@ -226,5 +233,18 @@ public class MusicModel implements MusicOperations {
   @Override
   public void setTempo(int tempo) {
     this.tempo = tempo;
+  }
+
+  @Override
+  public Repeat getRepeatAt(int beat) {
+    if (piece.hasRepeatAt(beat)) {
+      return piece.getRepeatAt(beat);
+    }
+    throw new IllegalArgumentException("No beat found");
+  }
+
+  @Override
+  public boolean hasRepeatAt(int beat) {
+    return piece.hasRepeatAt(beat);
   }
 }

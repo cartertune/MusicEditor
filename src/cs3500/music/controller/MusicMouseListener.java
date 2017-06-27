@@ -14,6 +14,10 @@ class MusicMouseListener implements MouseListener {
   private final MusicController controller;
   private IGUIView view;
 
+  private double startTime;
+  private double endTime;
+  private double holdTime; //time mouse was held in microseconds.
+
   /**
    * Creates this MusicMouseListener and adds it to given view.
    *
@@ -21,6 +25,7 @@ class MusicMouseListener implements MouseListener {
    * @param controller the controller the view should send the data back to.
    */
   MusicMouseListener(IGUIView view, MusicController controller) {
+
     this.controller = controller;
     this.view = view;
     view.addMouseListener(this);
@@ -40,7 +45,7 @@ class MusicMouseListener implements MouseListener {
    */
   @Override
   public void mousePressed(MouseEvent e) {
-    view.addNoteAt(e, controller);
+    startTime = System.nanoTime();
   }
 
   /**
@@ -48,7 +53,11 @@ class MusicMouseListener implements MouseListener {
    */
   @Override
   public void mouseReleased(MouseEvent e) {
-    //do nothing.
+    endTime = System.nanoTime();
+    holdTime = (endTime - startTime) / Math.pow(10,3);
+
+
+    view.addNoteAt(e, controller, holdTime);
   }
 
   /**

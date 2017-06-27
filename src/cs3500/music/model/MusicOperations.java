@@ -1,6 +1,7 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An Interface that MusicEditor models must apply to.
@@ -24,6 +25,13 @@ public interface MusicOperations {
   void addNote(int duration, int octave, int beatNum, String pitch)
       throws IllegalArgumentException;
 
+
+  /**
+   * Adds a given Repeat at given beat.
+   * @param beatNum beatNumber to be placed at.
+   * @param repeatType type of repeat to add.
+   */
+  void addRepeat(int beatNum, RepeatType repeatType);
 
   /**
    * Adds a note to model with given parameters.
@@ -116,4 +124,8 @@ public interface MusicOperations {
    * @param tempo tempo to be set.
    */
   void setTempo(int tempo);
+
+  Repeat getRepeatAt(int beat);
+
+  boolean hasRepeatAt(int beat);
 }
