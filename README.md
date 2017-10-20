@@ -161,3 +161,4 @@ MODEL:
   class Sound:
 
     - Represents a Sound. aka a note without a specified duration.
+# MusicEditor
